@@ -1,5 +1,5 @@
-## This documentation has moved!
+## Эта документация перемещена!
 
-You can find the new documentation in our [Quick Start](getting-started/1-quick-start.md) guide.
+Вы можете найти новую документацию в нашем руководстве [Быстрый старт](getting-started/1-quick-start.md).
 
-While you are there, check out our expanded [Getting Started](getting-started/) documentation.
+Пока вы там, ознакомьтесь с нашей расширенной документацией [Начало работы](getting-started/).

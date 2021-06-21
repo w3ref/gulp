@@ -1,11 +1,11 @@
 <!-- front-matter
 id: documentation-missing
-title: Documentation Missing
+title: Документация отсутствует
 hide_title: true
 -->
 
-# Excuse our dust!
+# Простите нашу пыль!
 
-We're in the process of rewriting **all** our documentation and some of the links we've added to completed docs haven't been written yet. You've likely clicked on one of those to end up here. We're sorry about that but please check back later on the topic you're interested in. If you want to help out, we'll happily accept a Pull Request for this missing documentation.
+Мы находимся в процессе переписывания **всей** нашей документации, и некоторые ссылки, которые мы добавили в завершенные документы, еще не написаны. Вы, вероятно, нажали на один из них, чтобы оказаться здесь. Мы сожалеем об этом, но, пожалуйста, проверьте позже интересующую вас тему. Если вы хотите помочь, мы с радостью примем Pull Request для этой недостающей документации.
 
--The Gulp Team
+-Команда Gulp

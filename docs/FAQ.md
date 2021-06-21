@@ -1,50 +1,50 @@
 # FAQ
 
-## Why gulp? Why not ____?
+## Почему gulp? Почему нет ____?
 
-See the [gulp introduction slideshow] for a rundown on how gulp came to be.
+Смотрите [Слайд-шоу введения gulp][gulp introduction slideshow] для краткого описания того, как появился gulp.
 
-## Is it "gulp" or "Gulp"?
+## Это "gulp" bkb "Gulp"?
 
-gulp is always lowercase. The only exception is in the gulp logo where gulp is capitalized.
+gulp всегда в нижнем регистре. Единственное исключение - логотип gulp, где gulp пишется с заглавной буквы.
 
-## Where can I find a list of gulp plugins?
+## Где я могу найти список плагинов gulp?
 
-gulp plugins always include the `gulpplugin` keyword. [Search gulp plugins][search-gulp-plugins] or [view all plugins][npm plugin search].
+Плагины gulp всегда включают ключевое слово `gulpplugin`. [Искать gulp плагины][search-gulp-plugins] или [просмотреть все плагины][npm plugin search].
 
-## I want to write a gulp plugin, how do I get started?
+## Я хочу написать плагин gulp, как мне начать?
 
-See the [Writing a gulp plugin] wiki page for guidelines and an example to get you started.
+Смотрите вики-страницу [Написание подключаемого модуля gulp][Writing a gulp plugin] для получения рекомендаций и примеров для начала.
 
-## My plugin does ____, is it doing too much?
+## Мой плагин делает ____, он слишком много делает?
 
-Probably. Ask yourself:
+Наверное. Спроси себя:
 
-1. Is my plugin doing something that other plugins may need to do?
-  - If so, that piece of functionality should be a separate plugin. [Check if it already exists on npm][npm plugin search].
-1. Is my plugin doing two, completely different things based on a configuration option?
-  - If so, it may serve the community better to release it as two separate plugins
-  - If the two tasks are different, but very closely related, it's probably OK
+1. Делает ли мой плагин то, что может понадобиться другим плагинам?
+    * Если это так, эта функциональность должна быть отдельным плагином. [Проверить, существует ли он уже в npm][npm plugin search].
+1. Делает ли мой плагин две совершенно разные вещи в зависимости от варианта конфигурации?
+    * Если да, то для сообщества может быть лучше выпустить его как два отдельных плагина.
+    * Если две задачи разные, но очень тесно связаны, вероятно, все в порядке.
 
-## How should newlines be represented in plugin output?
+## Как должны быть представлены новые строки в выводе плагина?
 
-Always use `\n` to prevent diff issues between operating systems.
+Всегда используйте `\n` для предотвращения проблем с различиями между операционными системами.
 
-## I installed gulp as a dependency from package.json file by running `npm install` but I keep getting `command not found` whenever I try running a gulp command, why doesn't it work?
+## Я установил gulp как зависимость от файла package.json, запустив `npm install`, но я продолжаю получать `command not found` всякий раз, когда пытаюсь запустить команду gulp, почему это не работает?
 
-Upon installing gulp as a project dependency, you need to add that to your PATH environment variable so that when you run a command, the system can find it. An easy solution is to install gulp globally, so that its binaries end up in your PATH environment variable. To install gulp globally, use the command `npm install gulp-cli -g`
+После установки gulp в качестве зависимости проекта вам необходимо добавить это в переменную среды PATH, чтобы при запуске команды система могла ее найти. Простое решение - установить gulp глобально, чтобы его двоичные файлы попадали в переменную среды PATH. Чтобы установить gulp глобально, используйте команду `npm install gulp-cli -g`
 
-## Where can I get updates on gulp?
+## Где я могу получить обновления по gulp?
 
-gulp updates can be found on the following twitters:
+Обновления gulp можно найти в следующих твиттерах:
 
-- [@wearefractal](https://twitter.com/wearefractal)
-- [@eschoff](https://twitter.com/eschoff)
-- [@gulpjs](https://twitter.com/gulpjs)
+* [@wearefractal](https://twitter.com/wearefractal)
+* [@eschoff](https://twitter.com/eschoff)
+* [@gulpjs](https://twitter.com/gulpjs)
 
-## Does gulp have an chat channel?
+## Есть ли у gulp канал чата?
 
-Yes, come chat with us on [Gitter](https://gitter.im/gulpjs/gulp).
+Да, поговорите с нами на [Gitter](https://gitter.im/gulpjs/gulp).
 
 [Writing a gulp plugin]: writing-a-plugin/README.md
 [gulp introduction slideshow]: https://slid.es/contra/gulp
