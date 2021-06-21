@@ -1,6 +1,6 @@
-# Getting Started
+# Начало работы
 
-1. [Quick Start](1-quick-start.md)
+1. [Быстрый старт](1-quick-start.md)
 2. [JavaScript and Gulpfiles](2-javascript-and-gulpfiles.md)
 3. [Creating Tasks](3-creating-tasks.md)
 4. [Async Completion](4-async-completion.md)
