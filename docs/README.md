@@ -1,65 +1,65 @@
-# gulp documentation
+# gulp документация
 
-* [Getting Started](getting-started/) - Get started with gulp
-* [API documentation](api/) - The programming interface, defined
-* [CLI documentation](CLI.md) - Learn how to call tasks and use compilers
-* [Writing a Plugin](writing-a-plugin/) - The essentials of writing a gulp plugin
-* [Why Use Pump?](why-use-pump/README.md) - Why to use the `pump` module instead of calling `.pipe` yourself
-* [Simplified Chinese documentation][SimplifiedChineseDocs] - gulp 简体中文文档
-* [Korean documentation][KoreanDocs] - gulp 한국어 참조 문서
-* [Polish documentation](/docs/locale/pl_PL/README.md) - gulp Dokumentacja
-
+* [Начало работы](getting-started/) - Начало работы с gulp
+* [Документация по API](api/) - Программный интерфейс, определенный
+* [Документация по CLI](CLI.md) - Узнайте, как вызывать задачи и использовать компиляторы.
+* [Написание плагина](writing-a-plugin/) - Основы написания плагина gulp
+* [Зачем использовать Pump?](why-use-pump/README.md) - Зачем использовать модуль `pump` вместо вызова `.pipe` самостоятельно
+* [Документация на упрощенном китайском][SimplifiedChineseDocs] - gulp 简体中文文档
+* [Корейская документация][KoreanDocs] - gulp 한국어 참조 문서
+* [Польская документация](/docs/locale/pl_PL/README.md) - gulp Dokumentacja
+* [Русская документация][RussianDocs] - Перевод документации галпа на русский язык
 
 ## FAQ
 
-See the [FAQ](FAQ.md) for the answers to commonly asked questions.
+Смотрите ответы на часто задаваемые вопросы в [FAQ](FAQ.md).
 
+## Рецепты
 
-## Recipes
+Сообщество написало [рецепты](recipes#recipes) для распространенных сценариев использования gulp.
 
-The community has written [recipes](recipes#recipes) for common gulp use-cases.
+## Остались вопросы?
 
+Отправьте сообщение в [StackOverflow с тегом #gulp](https://stackoverflow.com/questions/tagged/gulp) или поговорите с нами в [#gulpjs](https://webchat.freenode.net/?channels=gulpjs) на [Freenode](https://freenode.net/).
 
-## Still got questions?
+## Видео
 
-Post on [StackOverflow with a #gulp tag](https://stackoverflow.com/questions/tagged/gulp) or come chat with us in [#gulpjs](https://webchat.freenode.net/?channels=gulpjs) on [Freenode](https://freenode.net/).
+* [Введение в Gulp 4](https://youtu.be/N42LQ2dLoA8) представлено @addyosmani и @gauntface
 
-## Videos
-* [Intro to Gulp 4](https://youtu.be/N42LQ2dLoA8) presented by @addyosmani and @gauntface
+## Книги
 
-## Books
-* [Developing a gulp Edge](http://shop.oreilly.com/product/9781939902146.do)
-* [Getting Started with Gulp – Second Edition](https://www.packtpub.com/application-development/getting-started-gulp-%E2%80%93-second-edition) - Travis Maynard, Packt (April 2017)
+* [Разработка gulp Edge](http://shop.oreilly.com/product/9781939902146.do)
+* [Начало работы с Gulp - второе издание](https://www.packtpub.com/application-development/getting-started-gulp-%E2%80%93-second-edition) - Трэвис Мэйнард, Packt (Апрель 2017)
 
+## Статьи
 
-## Articles
-* [Tagtree intro to gulp video](http://tagtree.io/gulp)
-* [Introduction to node.js streams](https://github.com/substack/stream-handbook)
-* [Video introduction to node.js streams](https://www.youtube.com/watch?v=QgEuZ52OZtU)
-* [Getting started with gulp (by @markgdyr)](https://markgoodyear.com/2014/01/getting-started-with-gulp/)
-* [A cheatsheet for gulp](https://github.com/osscafe/gulp-cheatsheet)
-* [Why you shouldn’t create a gulp plugin (or, how to stop worrying and learn to love existing node packages)](http://blog.overzealous.com/post/74121048393/why-you-shouldnt-create-a-gulp-plugin-or-how-to-stop)
-* [Inspiration (slides) about why gulp was made](http://slid.es/contra/gulp)
-* [Building With Gulp](http://www.smashingmagazine.com/2014/06/11/building-with-gulp/)
-* [Gulp - The Basics (screencast)](https://www.youtube.com/watch?v=dwSLFai8ovQ)
-* [Get started with gulp (video series)](https://www.youtube.com/playlist?list=PLRk95HPmOM6PN-G1xyKj9q6ap_dc9Yckm)
-* [Optimize your web code with gulp](http://www.linuxuser.co.uk/tutorials/optimise-your-web-code-with-gulp-js)
-* [Automate Your Tasks Easily with Gulp.js ](https://scotch.io/tutorials/automate-your-tasks-easily-with-gulp-js)
-* [How to upgrade to Gulp v4](https://www.liquidlight.co.uk/blog/article/how-do-i-update-to-gulp-4/)
+* [Вступление Tagtree к видео gulp](http://tagtree.io/gulp)
+* [Введение в потоки node.js](https://github.com/substack/stream-handbook)
+* [Видео введение потоки node.js](https://www.youtube.com/watch?v=QgEuZ52OZtU)
+* [Начало работы с gulp (от @markgdyr)](https://markgoodyear.com/2014/01/getting-started-with-gulp/)
+* [Шпаргалка по gulp](https://github.com/osscafe/gulp-cheatsheet)
+* [Почему вам не следует создавать плагин gulp (или как перестать беспокоиться и научиться любить существующие пакеты узлов)](http://blog.overzealous.com/post/74121048393/why-you-shouldnt-create-a-gulp-plugin-or-how-to-stop)
+* [Вдохновение (слайды) о том, почему был сделан gulp](http://slid.es/contra/gulp)
+* [Сборка с помощью Gulp](http://www.smashingmagazine.com/2014/06/11/building-with-gulp/)
+* [Gulp - Основы (скринкаст)](https://www.youtube.com/watch?v=dwSLFai8ovQ)
+* [Начните с gulp (серия видео)](https://www.youtube.com/playlist?list=PLRk95HPmOM6PN-G1xyKj9q6ap_dc9Yckm)
+* [Оптимизируйте свой веб-код с помощью gulp](http://www.linuxuser.co.uk/tutorials/optimise-your-web-code-with-gulp-js)
+* [Автоматизируйте свои задачи с помощью Gulp.js](https://scotch.io/tutorials/automate-your-tasks-easily-with-gulp-js)
+* [Как перейти на Gulp v4](https://www.liquidlight.co.uk/blog/article/how-do-i-update-to-gulp-4/)
 
-## Examples
+## Примеры
 
-- [Web Starter Kit gulpfile](https://github.com/google/web-starter-kit/blob/master/gulpfile.babel.js)
+* [Веб-стартовый комплект gulpfile](https://github.com/google/web-starter-kit/blob/master/gulpfile.babel.js)
 
+## Лицензия
 
-## License
-
-All the documentation is covered by the CC0 license *(do whatever you want with it - public domain)*.
+На всю документацию распространяется лицензия CC0 *(делайте с ней все, что хотите - общественное достояние)*.
 
 [![CC0](https://i.creativecommons.org/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
 
-To the extent possible under law, [Fractal](http://wearefractal.com) has waived all copyright and related or neighboring rights to this work.
+Насколько это возможно в соответствии с законом, [Fractal](http://wearefractal.com) отказался от всех авторских и связанных или смежных прав на эту работу.
 
 [SpanishDocs]: https://github.com/bucaran/gulp-docs-es
 [SimplifiedChineseDocs]: https://github.com/lisposter/gulp-docs-zh-cn
 [KoreanDocs]: https://github.com/preco21/gulp-docs-ko
+[RussianDocs]: https://github.com/w3ref/gulp
