@@ -2,55 +2,52 @@
   <a href="https://gulpjs.com">
     <img height="257" width="114" src="https://raw.githubusercontent.com/gulpjs/artwork/master/gulp-2x.png">
   </a>
-  <p align="center">The streaming build system</p>
+  <p align="center">Система потоковой сборки</p>
 </p>
 
 [![NPM version][npm-image]][npm-url] [![Downloads][downloads-image]][npm-url] [![Azure Pipelines Build Status][azure-pipelines-image]][azure-pipelines-url] [![Build Status][travis-image]][travis-url] [![AppVeyor Build Status][appveyor-image]][appveyor-url] [![Coveralls Status][coveralls-image]][coveralls-url] [![OpenCollective Backers][backer-badge]][backer-url] [![OpenCollective Sponsors][sponsor-badge]][sponsor-url] [![Gitter chat][gitter-image]][gitter-url]
 
+## Что такое gulp?
 
-## What is gulp?
+- **Автоматизация** - gulp - это набор инструментов, который помогает автоматизировать болезненные или трудоемкие задачи в рабочем процессе разработки.
+- **Независимость от платформы** - Интеграции встроены во все основные IDE, и люди используют gulp с PHP, .NET, Node.js, Java и другими платформами.
+- **Сильная экосистема** - Используйте модули npm, чтобы делать все, что захотите + более 3000 тщательно подобранных плагинов для потокового преобразования файлов.
+- **Простота** - Благодаря минимальной площади API-интерфейса gulp легко изучить и использовать.
 
-- **Automation** - gulp is a toolkit that helps you automate painful or time-consuming tasks in your development workflow.
-- **Platform-agnostic** - Integrations are built into all major IDEs and people are using gulp with PHP, .NET, Node.js, Java, and other platforms.
-- **Strong Ecosystem** - Use npm modules to do anything you want + over 3000 curated plugins for streaming file transformations.
-- **Simple** - By providing only a minimal API surface, gulp is easy to learn and simple to use.
+## Что нового в 4.0?!
 
-## What's new in 4.0?!
+* Система задач была переписана с нуля, позволяя составлять задачи с использованием методов `series()` и `parallel()`.
+* Наблюдатель был обновлен, теперь он использует chokidar (больше нет необходимости в gulp-watch!), с паритетом функций с нашей системой задач.
+* Первоклассная поддержка была добавлена для инкрементных сборок с использованием `lastRun()`.
+* Был предоставлен метод `symlink()` для создания символических ссылок вместо копирования файлов.
+* Добавлена встроенная поддержка исходных карт - плагин gulp-sourcemaps больше не нужен!
+* Теперь рекомендуется регистрация задачи для экспортируемых функций - с использованием экспорта узла или ES.
+* Были разработаны специальные реестры, позволяющие выполнять общие задачи или расширять функциональность.
+* Реализации потоков были улучшены, что позволило улучшить условную и поэтапную сборку.
 
-* The task system was rewritten from the ground-up, allowing task composition using `series()` and `parallel()` methods.
-* The watcher was updated, now using chokidar (no more need for gulp-watch!), with feature parity to our task system.
-* First-class support was added for incremental builds using `lastRun()`.
-* A `symlink()` method was exposed to create symlinks instead of copying files.
-* Built-in support for sourcemaps was added - the gulp-sourcemaps plugin is no longer necessary!
-* Task registration of exported functions - using node or ES exports - is now recommended.
-* Custom registries were designed, allowing for shared tasks or augmented functionality.
-* Stream implementations were improved, allowing for better conditional and phased builds.
+## gulp для энтерпрайза
 
+Доступно как часть подписки Tidelift
 
-## gulp for enterprise
+Сопровождающие gulp и тысячи других пакетов работают с Tidelift, чтобы обеспечить коммерческую поддержку и обслуживание зависимостей с открытым исходным кодом, которые вы используете для создания своих приложений. Экономьте время, снижайте риски и улучшайте работоспособность кода, оплачивая при этом те, кто поддерживает именно те зависимости, которые вы используете. [Подробнее.](https://tidelift.com/subscription/pkg/npm-gulp?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
 
-Available as part of the Tidelift Subscription
+## Установка
 
-The maintainers of gulp and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/npm-gulp?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+Следуйте нашему [Краткому руководству][quick-start].
 
+## Дорожная карта
 
-## Installation
+Узнайте обо всех наших незавершенных работах и нерешенных проблемах на https://github.com/orgs/gulpjs/projects.
 
-Follow our [Quick Start guide][quick-start].
+## Документация
 
-## Roadmap
+Ознакомьтесь с [Руководством по началу работы][getting-started-guide] и [API документацией][api-docs] на нашем веб-сайте!
 
-Find out about all our work-in-progress and outstanding issues at https://github.com/orgs/gulpjs/projects.
+__Простите нашу пыль! Все остальные документы будут отложены, пока мы не обновим все. Пожалуйста, откройте вопрос, если что-то не работает.__
 
-## Documentation
+## Пример `gulpfile.js`
 
-Check out the [Getting Started guide][getting-started-guide] and [API docs][api-docs] on our website!
-
-__Excuse our dust! All other docs will be behind until we get everything updated. Please open an issue if something isn't working.__
-
-## Sample `gulpfile.js`
-
-This file will give you a taste of what gulp does.
+Этот файл даст вам представление о том, что делает gulp.
 
 ```js
 var gulp = require('gulp');
@@ -73,24 +70,26 @@ var paths = {
   }
 };
 
-/* Not all tasks need to use streams, a gulpfile is just another node program
- * and you can use all packages available on npm, but it must return either a
- * Promise, a Stream or take a callback and call it
+/* Не все задачи должны использовать потоки,
+ * файл gulpfile - это просто еще одна программа узла,
+ * и вы можете использовать все пакеты, доступные в npm,
+ * но он должен возвращать либо Promise, либо Stream,
+ * либо принимать обратный вызов и вызывать его.
  */
 function clean() {
-  // You can use multiple globbing patterns as you would with `gulp.src`,
-  // for example if you are using del 2.0 or above, return its promise
+  // Вы можете использовать несколько шаблонов подстановки, как и с `gulp.src`,
+  // например, если вы используете del 2.0 или выше, верните его промис
   return del([ 'assets' ]);
 }
 
 /*
- * Define our tasks using plain functions
+ * Определите наши задачи, используя простые функции
  */
 function styles() {
   return gulp.src(paths.styles.src)
     .pipe(less())
     .pipe(cleanCSS())
-    // pass in options to the stream
+    // передать параметры в поток
     .pipe(rename({
       basename: 'main',
       suffix: '.min'
@@ -112,12 +111,12 @@ function watch() {
 }
 
 /*
- * Specify if tasks run in series or parallel using `gulp.series` and `gulp.parallel`
+ * Укажите, будут ли задачи выполняться последовательно или параллельно, используя `gulp.series` и `gulp.parallel`
  */
 var build = gulp.series(clean, gulp.parallel(styles, scripts));
 
 /*
- * You can use CommonJS `exports` module notation to declare tasks
+ * Вы можете использовать нотацию модуля CommonJS `exports` для объявления задач
  */
 exports.clean = clean;
 exports.styles = styles;
@@ -125,22 +124,22 @@ exports.scripts = scripts;
 exports.watch = watch;
 exports.build = build;
 /*
- * Define default task that can be called by just running `gulp` from cli
+ * Определите задачу по умолчанию, которую можно вызвать, просто запустив `gulp` из cli
  */
 exports.default = build;
 ```
 
-## Use latest JavaScript version in your gulpfile
+## Используйте последнюю версию JavaScript в вашем gulpfile
 
-__Most new versions of node support most features that Babel provides, except the `import`/`export` syntax. When only that syntax is desired, rename to `gulpfile.esm.js`, install the [esm][esm-module] module, and skip the Babel portion below.__
+__Большинство новых версий node поддерживают большинство функций, которые предоставляет Babel, за исключением синтаксиса `import`/`export`. Если требуется только этот синтаксис, переименуйте его в `gulpfile.esm.js`, установите модуль [esm][esm-module], и пропустите часть Babel ниже.__
 
-Node already supports a lot of __ES2015+__ features, but to avoid compatibility problems we suggest to install Babel and rename your `gulpfile.js` to `gulpfile.babel.js`.
+Node уже поддерживает множество функций __ES2015+__, но, чтобы избежать проблем с совместимостью, мы предлагаем установить Babel и переименовать ваш `gulpfile.js` в `gulpfile.babel.js`.
 
 ```sh
 npm install --save-dev @babel/register @babel/core @babel/preset-env
 ```
 
-Then create a **.babelrc** file with the preset configuration.
+Затем создайте файл **.babelrc** с предустановленной конфигурацией.
 
 ```js
 {
@@ -148,7 +147,7 @@ Then create a **.babelrc** file with the preset configuration.
 }
 ```
 
-And here's the same sample from above written in **ES2015+**.
+А вот тот же образец сверху, написанный в **ES2015+**.
 
 ```js
 import gulp from 'gulp';
@@ -172,18 +171,18 @@ const paths = {
 };
 
 /*
- * For small tasks you can export arrow functions
+ * Для небольших задач вы можете экспортировать стрелочные функции
  */
 export const clean = () => del([ 'assets' ]);
 
 /*
- * You can also declare named functions and export them as tasks
+ * Вы также можете объявить именованные функции и экспортировать их как задачи
  */
 export function styles() {
   return gulp.src(paths.styles.src)
     .pipe(less())
     .pipe(cleanCSS())
-    // pass in options to the stream
+    // передать параметры в поток
     .pipe(rename({
       basename: 'main',
       suffix: '.min'
@@ -200,7 +199,7 @@ export function scripts() {
 }
 
  /*
-  * You could even use `export as` to rename exported tasks
+  * Вы даже можете использовать `export as` для переименования экспортируемых задач
   */
 function watchFiles() {
   gulp.watch(paths.scripts.src, scripts);
@@ -210,15 +209,15 @@ export { watchFiles as watch };
 
 const build = gulp.series(clean, gulp.parallel(styles, scripts));
 /*
- * Export a default task
+ * Экспорт задачи по умолчанию
  */
 export default build;
 ```
 
-## Incremental Builds
+## Дополнительные сборки
 
-You can filter out unchanged files between runs of a task using
-the `gulp.src` function's `since` option and `gulp.lastRun`:
+Вы можете отфильтровать неизмененные файлы между запусками задачи, используя параметр `since` функции `gulp.src` и `gulp.lastRun`:
+
 ```js
 const paths = {
   ...
@@ -238,23 +237,23 @@ function watch() {
   gulp.watch(paths.images.src, images);
 }
 ```
-Task run times are saved in memory and are lost when gulp exits. It will only
-save time during the `watch` task when running the `images` task
-for a second time.
 
-## Want to contribute?
+Время выполнения задачи сохраняется в памяти и теряется при выходе из gulp.
+Это только сэкономит время во время выполнения задачи `watch` при повторном запуске задачи `images` .
 
-Anyone can help make this project better - check out our [Contributing guide](/CONTRIBUTING.md)!
+## Хотите внести свой вклад?
 
-## Backers
+Кто угодно может помочь сделать этот проект лучше - ознакомьтесь с нашим [Руководством по участию](/CONTRIBUTING.md)!
 
-Support us with a monthly donation and help us continue our activities.
+## Сторонники
+
+Поддержите нас ежемесячным пожертвованием и помогите нам продолжить нашу деятельность.
 
 [![Backers][backers-image]][support-url]
 
-## Sponsors
+## Спонсоры
 
-Become a sponsor to get your logo on our README on Github.
+Станьте спонсором, чтобы разместить свой логотип в нашем README на Github.
 
 [![Sponsors][sponsors-image]][support-url]
 
