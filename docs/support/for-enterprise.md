@@ -1,53 +1,52 @@
 <!-- front-matter
 id: for-enterprise
-title: For enterprise
+title: Для предприятий
 hide_title: true
-sidebar_label: For Enterprise
+sidebar_label: Для предприятий
 -->
 
-# Gulp for enterprise
+# Gulp для энтерпрайза
 
-Available as part of the Tidelift Subscription.
+Доступно как часть подписки Tidelift.
 
-Tidelift is working with the maintainers of Gulp and thousands of other
-open source projects to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use.
+Tidelift работает с разработчиками Gulp и тысяч других проектов с открытым исходным кодом, чтобы обеспечить коммерческую поддержку и обслуживание зависимостей с открытым исходным кодом, которые вы используете для создания своих приложений. Экономьте время, снижайте риски и улучшайте работоспособность кода, оплачивая при этом те, кто поддерживает именно те зависимости, которые вы используете.
 
-<a className="tidelift-button" href="https://tidelift.com/subscription/pkg/npm-gulp?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Learn more</a>
+<a className="tidelift-button" href="https://tidelift.com/subscription/pkg/npm-gulp?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Узнать больше</a>
 
-<a className="tidelift-button" href="https://tidelift.com/subscription/request-a-demo?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Request a demo</a>
+<a className="tidelift-button" href="https://tidelift.com/subscription/request-a-demo?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Запросить демо</a>
 
-## Enterprise-ready open source software—managed for you
+## Корпоративное программное обеспечение с открытым исходным кодом - управляемое за вас
 
-The Tidelift Subscription is a managed open source subscription for application dependencies covering millions of open source projects across JavaScript, Python, Java, PHP, Ruby, .NET, and more.
+Подписка Tidelift - это управляемая подписка с открытым исходным кодом для зависимостей приложений, охватывающая миллионы проектов с открытым исходным кодом на JavaScript, Python, Java, PHP, Ruby, .NET и других.
 
-Your subscription includes:
+Ваша подписка включает:
 
-* **Security updates**
+* **Обновления безопасности**
 
-  Tidelift’s security response team coordinates patches for new breaking security vulnerabilities and alerts immediately through a private channel, so your software supply chain is always secure.
+  Группа реагирования на безопасность Tidelift координирует исправления новых уязвимостей безопасности и немедленно отправляет оповещения через частный канал, поэтому ваша цепочка поставок программного обеспечения всегда в безопасности.
 
-* **Licensing verification and indemnification**
+* **Проверка лицензирования и возмещения**
 
-  Tidelift verifies license information to enable easy policy enforcement and adds intellectual property indemnification to cover creators and users in case something goes wrong. You always have a 100% up-to-date bill of materials for your dependencies to share with your legal team, customers, or partners.
+  Tidelift проверяет лицензионную информацию, чтобы обеспечить простое применение политик, и добавляет компенсацию интеллектуальной собственности для авторов и пользователей в случае, если что-то пойдет не так. У вас всегда есть 100% актуальная ведомость материалов для ваших зависимых сторон, которой вы можете поделиться со своим юридическим отделом, клиентами или партнерами.
 
-* **Maintenance and code improvement**
+* **Сопровождение и улучшение кода**
 
-  Tidelift ensures the software you rely on keeps working as long as you need it to work. Your managed dependencies are actively maintained and we recruit additional maintainers where required.
+  Tidelift гарантирует, что программное обеспечение, на которое вы полагаетесь, будет работать столько, сколько вам нужно. Ваши управляемые зависимости активно поддерживаются, и при необходимости мы привлекаем дополнительных специалистов по сопровождению.
 
-* **Package selection and version guidance**
+* **Выбор пакета и руководство по версии**
 
-  We help you choose the best open source packages from the start—and then guide you through updates to stay on the best releases as new issues arise.
+  Мы поможем вам выбрать лучшие пакеты с открытым исходным кодом с самого начала, а затем проведем вас через обновления, чтобы оставаться на лучших выпусках по мере возникновения новых проблем.
 
-* **Roadmap input**
+* **Ввод дорожной карты**
 
-  Take a seat at the table with the creators behind the software you use. Tidelift’s participating maintainers earn more income as their software is used by more subscribers, so they’re interested in knowing what you need.
+  Сядьте за стол с создателями программного обеспечения, которое вы используете. Сопровождающие, участвующие в Tidelift, получают больший доход, поскольку их программное обеспечение используется большим количеством подписчиков, поэтому они заинтересованы в том, чтобы знать, что вам нужно.
 
-* **Tooling and cloud integration**
+* **Инструменты и облачная интеграция**
 
-  Tidelift works with GitHub, GitLab, BitBucket, and more. We support every cloud platform (and other deployment targets, too).
+  Tidelift работает с GitHub, GitLab, BitBucket и другими. Мы поддерживаем все облачные платформы (а также другие цели развертывания).
 
-The end result? All of the capabilities you expect from commercial-grade software, for the full breadth of open source you use. That means less time grappling with esoteric open source trivia, and more time building your own applications—and your business.
+Конечный результат? Все возможности, которые вы ожидаете от программного обеспечения коммерческого уровня, для всего спектра используемых вами открытых исходных кодов. Это означает, что меньше времени нужно тратить на эзотерические мелочи с открытым исходным кодом и больше времени на создание собственных приложений и бизнеса.
 
-<a className="tidelift-button" href="https://tidelift.com/subscription/pkg/npm-gulp?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Learn more</a>
+<a className="tidelift-button" href="https://tidelift.com/subscription/pkg/npm-gulp?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Узнать больше</a>
 
-<a className="tidelift-button" href="https://tidelift.com/subscription/request-a-demo?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Request a demo</a>
+<a className="tidelift-button" href="https://tidelift.com/subscription/request-a-demo?utm_source=npm-gulp&utm_medium=referral&utm_campaign=enterprise">Запросить демо</a>
