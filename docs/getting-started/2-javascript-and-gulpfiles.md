@@ -1,11 +1,11 @@
 <!-- front-matter
 id: javascript-and-gulpfiles
-title: JavaScript и Gulp файлы
+title: JavaScript и Gulpfiles
 hide_title: true
 sidebar_label: JavaScript и Gulpfiles
 -->
 
-# JavaScript и файлы Gulp
+# JavaScript и Gulpfiles
 
 Gulp позволяет вам использовать существующие знания JavaScript для написания файлов gulp или использовать ваш опыт работы с gulpfiles для написания простого JavaScript. Хотя для упрощения работы с файловой системой и командной строкой предоставляется несколько утилит, все остальное, что вы пишете, является чистым JavaScript.
 
