@@ -1,30 +1,30 @@
 <!-- front-matter
 id: automate-releases
-title: Automate Releases
+title: Автоматизация релизов
 hide_title: true
-sidebar_label: Automate Releases 
+sidebar_label: Автоматизация релизов
 -->
 
-# Automate Releases
+# Автоматизация релизов
 
-If your project follows a semantic versioning, it may be a good idea to automatize the steps needed to do a release.
-The recipe below bumps the project version, commits the changes to git and creates a new GitHub release.
+Если ваш проект следует семантическому управлению версиями, может быть хорошей идеей автоматизировать шаги, необходимые для выпуска.
+Приведенный ниже рецепт увеличивает версию проекта, фиксирует изменения в git и создает новый GitHub-релиз.
 
-For publishing a GitHub release you'll need to [create a personal access token](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) and add it to your project. However, we don't want to commit it, so we'll use [`dotenv`](https://www.npmjs.com/package/dotenv) to load it from a git-ignored `.env` file:
+Для публикации выпуска GitHub вам необходимо [создать личный токен доступа](https://docs.github.com/en/free-pro-team@latest/github/authenticating-to-github/creating-a-personal-access-token) и добавьте его в свой проект. Однако мы не хотим фиксировать его, поэтому мы будем использовать [`dotenv`](https://www.npmjs.com/package/dotenv), чтобы загрузить его из игнорируемого git файла `.env`:
 
 ```
 GH_TOKEN=ff34885...
 ```
 
-Don't forget to add `.env` to your `.gitignore`.
+Не забудьте добавить `.env` в ваш `.gitignore`.
 
-Next, install all the necessary dependencies for this recipe:
+Далее устанавливаем все необходимые зависимости для этого рецепта:
 
 ```sh
 npm install --save-dev conventional-recommended-bump conventional-changelog-cli conventional-github-releaser dotenv execa
 ```
 
-Based on your environment, setup and preferences, your release workflow might look something like this:
+В зависимости от вашей среды, настроек и предпочтений рабочий процесс выпуска может выглядеть примерно так:
 
 ``` js
 const gulp = require('gulp');
@@ -35,22 +35,22 @@ const fs = require('fs');
 const { promisify } = require('util');
 const dotenv = require('dotenv');
 
-// load environment variables
+// загрузить переменные среды
 const result = dotenv.config();
 
 if (result.error) {
   throw result.error;
 }
 
-// Conventional Changelog preset
+// Стандартная предустановка журнала изменений
 const preset = 'angular';
-// print output of commands into the terminal
+// вывод команд в терминал
 const stdio = 'inherit';
 
 async function bumpVersion() {
-  // get recommended version bump based on commits
+  // получить рекомендованную версию на основе коммитов
   const { releaseType } = await promisify(conventionalRecommendedBump)({ preset });
-  // bump version without committing and tagging
+  // версия bump без коммитов и тегов
   await execa('npm', ['version', releaseType, '--no-git-tag-version'], {
     stdio,
   });
@@ -72,9 +72,10 @@ async function changelog() {
 }
 
 async function commitTagPush() {
-  // even though we could get away with "require" in this case, we're taking the safe route
-  // because "require" caches the value, so if we happen to use "require" again somewhere else
-  // we wouldn't get the current value, but the value of the last time we called "require"
+  // даже несмотря на то, что в этом случае мы могли бы обойтись без "require",
+  // мы выбираем безопасный путь, потому что "require" кэширует значение,
+  // поэтому, если мы снова используем "require" где-то еще, мы не получим текущее значение,
+  // но значение в последний раз, которое мы назвали "require"
   const { version } = JSON.parse(await promisify(fs.readFile)('package.json'));
   const commitMsg = `chore: release ${version}`;
   await execa('git', ['add', '.'], { stdio });
