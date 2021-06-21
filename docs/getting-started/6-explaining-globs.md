@@ -1,86 +1,88 @@
 <!-- front-matter
 id: explaining-globs
-title: Explaining Globs
+title: Объяснение Globs
 hide_title: true
-sidebar_label: Explaining Globs
+sidebar_label: Объяснение Globs
 -->
 
-# Explaining Globs
+# Объяснение Globs
 
-A glob is a string of literal and/or wildcard characters used to match filepaths. Globbing is the act of locating files on a filesystem using one or more globs.
+Glob - это строка буквенных символов и/или подстановочных знаков, используемых для сопоставления путей к файлам. Globbing - это поиск файлов в файловой системе с помощью одного или нескольких globs.
 
-The `src()` method expects a single glob string or an array of globs to determine which files your pipeline will operate on. At least one match must be found for your glob(s) otherwise `src()` will error. When an array of globs is used, they are matched in array order - especially useful for negative globs.
+Метод `src()` ожидает, что одна глобальная строка или массив глобов определят, с какими файлами будет работать ваш конвейер. Для ваших глобов должно быть найдено хотя бы одно совпадение, иначе `src()` выдаст ошибку. Когда используется массив глобов, они сопоставляются в порядке массива, что особенно полезно для отрицательных глобов.
 
-## Segments and separators
+## Сегменты и разделители
 
-A segment is everything between separators. The separator in a glob is always the `/` character - regardless of the operating system - even in Windows where the path separator is `\\`.  In a glob, `\\` is reserved as the escape character.
+Сегмент - это все, что находится между разделителями. Разделителем в глобе всегда является символ `/` - независимо от операционной системы - даже в Windows, где разделителем пути является `\\`. В glob, `\\` зарезервирован как escape-символ.
 
-Here, the * is escaped, so it is treated as a literal instead of a wildcard character.
+Здесь `*` экранирована, поэтому он рассматривается как литерал, а не подстановочный знак.
+
 ```js
 'glob_with_uncommon_\\*_character.js'
 ```
 
-Avoid using Node's `path` methods, like `path.join`, to create globs. On Windows, it produces an invalid glob because Node uses `\\` as the separator. Also avoid the `__dirname` global, `__filename` global, or `process.cwd()` for the same reasons.
+Избегайте использования методов Node `path`, таких как `path.join`, для создания globs. В Windows он создает недопустимый glob, потому что Node использует `\\` в качестве разделителя. Также избегайте глобальных `__dirname`, `__filename` или `process.cwd()` по тем же причинам.
 
 ```js
 const invalidGlob = path.join(__dirname, 'src/*.js');
 ```
 
-## Special character: * (single-star)
+## Специальный символ: * (одиночная звездочка)
 
-Matches any amount - including none - of characters within a single segment. Useful for globbing files within one directory.
+Соответствует любому количеству (включая ни одного) символов в одном сегменте. Полезно для добавления файлов в один каталог.
 
-This glob will match files like `index.js`, but not files like `scripts/index.js` or `scripts/nested/index.js`
+Этот глоб будет соответствовать файлам типа `index.js`, но не файлам вроде `scripts/index.js` или `scripts/nested/index.js`
+
 ```js
 '*.js'
 ```
 
-## Special character: ** (double-star)
+## Специальный символ: ** (двойная звездочка)
 
-Matches any amount - including none - of characters across segments. Useful for globbing files in nested directories. Make sure to appropriately restrict your double-star globs, to avoid matching large directories unnecessarily.
+Соответствует любому количеству (включая ни одного) символов в сегментах. Полезно для подстановки файлов во вложенных каталогах. Убедитесь, что вы соответствующим образом ограничили ваши двойные звезды, чтобы избежать ненужного сопоставления больших каталогов.
 
-Here, the glob is appropriately restricted to the `scripts/` directory. It will match files like `scripts/index.js`, `scripts/nested/index.js`, and `scripts/nested/twice/index.js`.
+Здесь глоб соответствующим образом ограничен каталогом `scripts/`. Он будет соответствовать таким файлам, как `scripts/index.js`, `scripts/nested/index.js` и `scripts/nested/twice/index.js`.
 
 ```js
 'scripts/**/*.js'
 ```
 
-<small>In the previous example, if `scripts/` wasn't prefixed, all dependencies in `node_modules` or other directories would also be matched.</small>
+<small>В предыдущем примере, если `scripts/` не было префиксом, все зависимости в `node_modules` или других каталогах также были бы сопоставлены.</small>
 
-## Special character: ! (negative)
+## Специальный символ: ! (отрицание)
 
-Since globs are matched in array order, a negative glob must follow at least one non-negative glob in an array. The first finds a set of matches, then the negative glob removes a portion of those results. When excluding all files within a directory, you must add `/**` after the directory name, which the globbing library optimizes internally.
+Поскольку globs сопоставляются в порядке массива, отрицательный глоб должен следовать по крайней мере за одним неотрицательным глобом в массиве. Первый находит набор совпадений, затем отрицательный глоб удаляет часть этих результатов. При исключении всех файлов в каталоге вы должны добавить `/**` после имени каталога, которое библиотека подстановки оптимизирует внутренне.
 
 ```js
 ['scripts/**/*.js', '!scripts/vendor/**']
 ```
 
-If any non-negative globs follow a negative, nothing will be removed from the later set of matches.
+Если любые неотрицательные глобы следуют за отрицательным, ничего не будет удалено из более позднего набора совпадений.
 
 ```js
 ['scripts/**/*.js', '!scripts/vendor/**', 'scripts/vendor/react.js']
 ```
 
-Negative globs can be used as an alternative for restricting double-star globs.
+Отрицательные глобы можно использовать в качестве альтернативы ограничению глоб с двумя звездами.
 
 ```js
 ['**/*.js', '!node_modules/**']
 ```
 
-<small>In the previous example, if the negative glob was `!node_modules/**/*.js`, the globbing library wouldn't optimize the negation and every match would have to be compared against the negative glob, which would be extremely slow. To ignore all files in a directory, only add the `/**` glob after the directory name.</small>
+<small>В предыдущем примере, если отрицательный глоб был `!node_modules/**/*.js`, библиотека подстановки не оптимизировала бы отрицание, и каждое совпадение пришлось бы сравнивать с отрицательным глобом, что было бы очень медленно. Чтобы игнорировать все файлы в каталоге, добавьте только глоб `/**` после имени каталога.</small>
 
-## Overlapping globs
+## Перекрывающиеся глобы
 
-Two or more globs that (un)intentionally match the same file are considered overlapping. When overlapping globs are used within a single `src()`, gulp does its best to remove the duplicates, but doesn't attempt to deduplicate across separate `src()` calls.
+Два или более глоба, которые (не) намеренно соответствуют одному и тому же файлу, считаются перекрывающимися. Когда перекрывающиеся глобы используются в одном `src()`, gulp делает все возможное, чтобы удалить дубликаты, но не пытается выполнять дедупликацию между отдельными вызовами `src()`.
 
-## Advanced resources
+## Дополнительные ресурсы
 
-Most of what you'll need to work with globs in gulp is covered here. If you'd like to get more in depth, here are a few resources.
+Здесь описывается большая часть того, что вам нужно для работы с глобами в gulp. Если вы хотите получить более подробную информацию, вот несколько ресурсов.
 
-* [Micromatch Documentation][micromatch-docs]
-* [node-glob's Glob Primer][glob-primer-docs]
-* [Begin's Globbing Documentation][begin-globbing-docs]
-* [Wikipedia's Glob Page][wikipedia-glob]
+* [Документация Micromatch][micromatch-docs]
+* [node-glob Glob учебник][glob-primer-docs]
+* [Документация начинающего по Globbing][begin-globbing-docs]
+* [Страница Википедии по Glob][wikipedia-glob]
 
 [micromatch-docs]: https://github.com/micromatch/micromatch
 [glob-primer-docs]: https://github.com/isaacs/node-glob#glob-primer

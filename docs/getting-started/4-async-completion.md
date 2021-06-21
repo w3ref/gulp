@@ -1,21 +1,21 @@
 <!-- front-matter
 id: async-completion
-title: Async Completion
+title: Асинхронное выполнение
 hide_title: true
-sidebar_label: Async Completion
+sidebar_label: Асинхронное выполнение
 -->
 
-# Async Completion
+# Асинхронное выполнение
 
-Node libraries handle asynchronicity in a variety of ways. The most common pattern is [error-first callbacks][node-api-error-first-callbacks], but you might also encounter [streams][stream-docs], [promises][promise-docs], [event emitters][event-emitter-docs], [child processes][child-process-docs], or [observables][observable-docs]. Gulp tasks normalize all these types of asynchronicity.
+Node библиотеки обрабатывают асинхронность различными способами. Наиболее распространенным шаблоном является [обратные вызовы error-first][node-api-error-first-callbacks], но вы также можете встретить [потоки][stream-docs], [промисы][promise-docs], [эмиттеры событий][event-emitter-docs], [дочерние процессы][child-process-docs] или [наблюдаемые][observable-docs]. Задачи Gulp нормализуют все эти типы асинхронности.
 
-## Signal task completion
+## Сигнал о завершении задачи
 
-When a stream, promise, event emitter, child process, or observable is returned from a task, the success or error informs gulp whether to continue or end. If a task errors, gulp will end immediately and show that error.
+Когда поток, обещание, эмиттер событий, дочерний процесс или наблюдаемый объект возвращается из задачи, успех или ошибка сообщает gulp, продолжать или завершать. Если в задаче возникает ошибка, gulp немедленно завершится и покажет эту ошибку.
 
-When composing tasks with `series()`, an error will end the composition and no further tasks will be executed. When composing tasks with `parallel()`, an error will end the composition but the other parallel tasks may or may not complete.
+При составлении задач с помощью `series()`, ошибка завершает составление и никакие дальнейшие задачи не будут выполняться. При составлении задач с помощью `parallel()`, ошибка завершит композицию, но другие параллельные задачи могут завершиться, а могут и не завершиться.
 
-### Returning a stream
+### Вернуть поток
 
 ```js
 const { src, dest } = require('gulp');
@@ -28,7 +28,7 @@ function streamTask() {
 exports.default = streamTask;
 ```
 
-### Returning a promise
+### Вернуть промис
 
 ```js
 function promiseTask() {
@@ -38,14 +38,14 @@ function promiseTask() {
 exports.default = promiseTask;
 ```
 
-### Returning an event emitter
+### Вернуть эмиттер события
 
 ```js
 const { EventEmitter } = require('events');
 
 function eventEmitterTask() {
   const emitter = new EventEmitter();
-  // Emit has to happen async otherwise gulp isn't listening yet
+  // Emit должен происходить асинхронно, иначе gulp еще не слушает.
   setTimeout(() => emitter.emit('finish'), 250);
   return emitter;
 }
@@ -53,7 +53,7 @@ function eventEmitterTask() {
 exports.default = eventEmitterTask;
 ```
 
-### Returning a child process
+### Вернуть дочерний процесс
 
 ```js
 const { exec } = require('child_process');
@@ -65,7 +65,7 @@ function childProcessTask() {
 exports.default = childProcessTask;
 ```
 
-### Returning an observable
+### Вернуть наблюдаемый
 
 ```js
 const { Observable } = require('rxjs');
@@ -77,13 +77,13 @@ function observableTask() {
 exports.default = observableTask;
 ```
 
-### Using an error-first callback
+### Использование обратного вызова при ошибке
 
-If nothing is returned from your task, you must use the error-first callback to signal completion. The callback will be passed to your task as the only argument - named `cb()` in the examples below.
+Если ваша задача ничего не вернула, вы должны использовать обратный вызов error-first, чтобы сигнализировать о завершении. Обратный вызов будет передан вашей задаче как единственный аргумент - в примерах ниже он называется `cb()`.
 
 ```js
 function callbackTask(cb) {
-  // `cb()` should be called by some async work
+  // `cb()` должен вызываться некоторой асинхронной работой
   cb();
 }
 
@@ -94,14 +94,14 @@ To indicate to gulp that an error occurred in a task using an error-first callba
 
 ```js
 function callbackError(cb) {
-  // `cb()` should be called by some async work
+  // `cb()` должен вызываться некоторой асинхронной работой
   cb(new Error('kaboom'));
 }
 
 exports.default = callbackError;
 ```
 
-However, you'll often pass this callback to another API instead of calling it yourself.
+Однако вы часто будете передавать этот обратный вызов другому API вместо того, чтобы вызывать его самостоятельно.
 
 ```js
 const fs = require('fs');
@@ -113,15 +113,15 @@ function passingCallback(cb) {
 exports.default = passingCallback;
 ```
 
-## No synchronous tasks
+## Отсутствие синхронных задач
 
-Synchronous tasks are no longer supported. They often led to subtle mistakes that were hard to debug, like forgetting to return your streams from a task.
+Синхронные задачи больше не поддерживаются. Они часто приводили к незаметным ошибкам, которые было трудно отладить, например, к забыванию вернуть потоки из задачи.
 
-When you see the _"Did you forget to signal async completion?"_ warning, none of the techniques mentioned above were used. You'll need to use the error-first callback or return a stream, promise, event emitter, child process, or observable to resolve the issue.
+Когда вы видите предупреждение _«Вы забыли сигнализировать об асинхронном завершении?»_, значит, ни один из упомянутых выше методов не использовался. Вам нужно будет использовать обратный вызов error-first или вернуть поток, промис, эмиттер событий, дочерний процесс или наблюдаемое, чтобы решить проблему.
 
-## Using async/await
+## Использование async/await
 
-When not using any of the previous options, you can define your task as an [`async` function][async-await-docs], which wraps your task in a promise. This allows you to work with promises synchronously using `await` and use other synchronous code.
+Если вы не используете какие-либо из предыдущих параметров, вы можете определить свою задачу как [`async` функцию][async-await-docs], которая заключает вашу задачу в обещание. Это позволяет вам работать с обещаниями синхронно с помощью `await` и использовать другой синхронный код.
 
 ```js
 const fs = require('fs');

@@ -1,37 +1,37 @@
 <!-- front-matter
 id: creating-tasks
-title: Creating Tasks
+title: Создание задач
 hide_title: true
-sidebar_label: Creating Tasks
+sidebar_label: Создание задач
 -->
 
-# Creating Tasks
+# Создание задач
 
-Each gulp task is an asynchronous JavaScript function - a function that accepts an error-first callback or returns a stream, promise, event emitter, child process, or observable ([more on that later][async-completion-docs]). Due to some platform limitations, synchronous tasks aren't supported, though there is a pretty nifty [alternative][using-async-await-docs].
+Каждая задача gulp - это асинхронная функция JavaScript - функция, которая принимает обратный вызов сначала с ошибкой или возвращает поток, промис, эмиттер событий, дочерний процесс или наблюдаемый ([подробнее об этом позже][async-completion-docs]). Из-за некоторых ограничений платформы синхронные задачи не поддерживаются, хотя есть довольно изящная [альтернатива][using-async-await-docs].
 
-## Exporting
+## Экспортирование
 
-Tasks can be considered **public** or **private**.
+Задачи могут считаться **публичными** или **приватными**.
 
-* **Public tasks** are exported from your gulpfile, which allows them to be run by the `gulp` command.
-* **Private tasks** are made to be used internally, usually used as part of `series()` or `parallel()` composition.
+* **Публичные задачи** экспортируются из вашего gulpfile, что позволяет запускать их с помощью команды `gulp`.
+* **Приватные задачи** предназначены для внутреннего использования, обычно как часть композиции `series()` или `parallel()`.
 
-A private task looks and acts like any other task, but an end-user can't ever execute it independently. To register a task publicly, export it from your gulpfile.
+Частная задача выглядит и действует как любая другая задача, но конечный пользователь никогда не сможет выполнить ее самостоятельно. Чтобы зарегистрировать задачу публично, экспортируйте ее из своего файла gulpfile.
 
 ```js
 const { series } = require('gulp');
 
-// The `clean` function is not exported so it can be considered a private task.
-// It can still be used within the `series()` composition.
+// Функция `clean` не экспортируется, поэтому ее можно рассматривать как частную задачу.
+// Его все еще можно использовать в составе `series()`.
 function clean(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
-// The `build` function is exported so it is public and can be run with the `gulp` command.
-// It can also be used within the `series()` composition.
+// Функция `build` экспортируется, поэтому она общедоступна и может быть запущена с помощью команды `gulp`.
+// Его также можно использовать в составе `series()`.
 function build(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
@@ -41,64 +41,66 @@ exports.default = series(clean, build);
 
 ![ALT TEXT MISSING][img-gulp-tasks-command]
 
-<small>In the past, `task()` was used to register your functions as tasks. While that API is still available, exporting should be the primary registration mechanism, except in edge cases where exports won't work.</small>
+<small>В прошлом `task()` использовался для регистрации ваших функций как задач. Хотя этот API все еще доступен, экспорт должен быть основным механизмом регистрации, за исключением крайних случаев, когда экспорт не работает.</small>
 
-## Compose tasks
+## Составление задач
 
-Gulp provides two powerful composition methods, `series()` and `parallel()`, allowing individual tasks to be composed into larger operations. Both methods accept any number of task functions or composed operations.  `series()` and `parallel()` can be nested within themselves or each other to any depth.
+Gulp предоставляет два мощных метода композиции, `series()` и `parallel()`, позволяя объединять отдельные задачи в более крупные операции. Оба метода принимают любое количество функций задач или составных операций.  `series()` и `parallel()` могут быть вложены внутри себя или друг в друга на любую глубину.
 
-To have your tasks execute in order, use the `series()` method.
+Чтобы ваши задачи выполнялись по порядку, используйте метод `series()`.
+
 ```js
 const { series } = require('gulp');
 
 function transpile(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function bundle(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 exports.build = series(transpile, bundle);
 ```
 
-For tasks to run at maximum concurrency, combine them with the `parallel()` method.
+Чтобы задачи выполнялись с максимальным параллелизмом, объедините их с методом `parallel()`.
+
 ```js
 const { parallel } = require('gulp');
 
 function javascript(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function css(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 exports.build = parallel(javascript, css);
 ```
 
-Tasks are composed immediately when either `series()` or `parallel()` is called.  This allows variation in the composition instead of conditional behavior inside individual tasks.
+Задачи составляются сразу после вызова `series()` или `parallel()`. Это позволяет варьировать композицию вместо условного поведения внутри отдельных задач.
 
 ```js
 const { series } = require('gulp');
 
 function minify(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 
 function transpile(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function livereload(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
@@ -109,43 +111,43 @@ if (process.env.NODE_ENV === 'production') {
 }
 ```
 
-`series()` and `parallel()` can be nested to any arbitrary depth.
+`series()` и `parallel()` могут быть вложены на любую произвольную глубину.
 
 ```js
 const { series, parallel } = require('gulp');
 
 function clean(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function cssTranspile(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function cssMinify(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function jsTranspile(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function jsBundle(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function jsMinify(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function publish(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
@@ -160,49 +162,49 @@ exports.build = series(
 );
 ```
 
-When a composed operation is run, each task will be executed every time it was referenced.  For example, a `clean` task referenced before two different tasks would be run twice and lead to undesired results.  Instead, refactor the `clean` task to be specified in the final composition.
+Когда выполняется составная операция, каждая задача будет выполняться каждый раз, когда на нее ссылаются. Например, задача `clean`, на которую ссылаются перед двумя разными задачами, будет запущена дважды и приведет к нежелательным результатам. Вместо этого выполните рефакторинг `clean` задачи, чтобы она была указана в окончательной композиции.
 
-If you have code like this:
+Если у вас есть такой код:
 
 ```js
-// This is INCORRECT
+// Это НЕПРАВИЛЬНО
 const { series, parallel } = require('gulp');
 
 const clean = function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 };
 
 const css = series(clean, function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 });
 
 const javascript = series(clean, function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 });
 
 exports.build = parallel(css, javascript);
 ```
 
-Migrate to this:
+Переходите на это:
 
 ```js
 const { series, parallel } = require('gulp');
 
 function clean(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function css(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function javascript(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 

@@ -1,17 +1,17 @@
 <!-- front-matter
 id: working-with-files
-title: Working with Files
+title: Работа с файлами
 hide_title: true
-sidebar_label: Working with Files
+sidebar_label: Работа с файлами
 -->
 
-# Working with Files
+# Работа с файлами
 
-The `src()` and `dest()` methods are exposed by gulp to interact with files on your computer.
+Методы `src()` и `dest()` предоставляются gulp для взаимодействия с файлами на вашем компьютере.
 
-`src()` is given a [glob][explaining-globs-docs] to read from the file system and produces a [Node stream][node-streams-docs]. It locates all matching files and reads them into memory to pass through the stream.
+`src()` получает [glob][explaining-globs-docs] для чтения из файловой системы и создает [Node stream][node-streams-docs]. Он находит все совпадающие файлы и считывает их в память для прохождения через поток.
 
-The stream produced by `src()` should be returned from a task to signal async completion, as mentioned in [Creating Tasks][creating-tasks-docs].
+Поток, созданный `src()`, должен быть возвращен из задачи, чтобы сигнализировать об асинхронном завершении, как упомянуто в [Создание задач][creating-tasks-docs].
 
 ```js
 const { src, dest } = require('gulp');
@@ -22,7 +22,7 @@ exports.default = function() {
 }
 ```
 
-The main API of a stream is the `.pipe()` method for chaining Transform or Writable streams.
+Основным API потока является метод `.pipe()` для объединения потоков Transform или Writable.
 
 ```js
 const { src, dest } = require('gulp');
@@ -35,15 +35,15 @@ exports.default = function() {
 }
 ```
 
-`dest()` is given an output directory string and also produces a [Node stream][node-streams-docs] which is generally used as a terminator stream. When it receives a file passed through the pipeline, it writes the contents and other details out to the filesystem at a given directory.  The `symlink()` method is also available and operates like `dest()`, but creates links instead of files (see [`symlink()`][symlink-api-docs] for details).
+`dest()` получает строку каталога вывода, а также создает [Node stream][node-streams-docs], который обычно используется как поток-ограничитель. Когда он получает файл, прошедший через конвейер, он записывает содержимое и другие детали в файловую систему в заданном каталоге. Метод `symlink()` также доступен и работает как `dest()`, но создает ссылки вместо файлов (подробности смотрите в [`symlink()`][symlink-api-docs]).
 
-Most often plugins will be placed between `src()` and `dest()` using the `.pipe()` method and will transform the files within the stream.
+Чаще всего плагины помещаются между `src()` и `dest()` с использованием метода `.pipe()` и преобразуют файлы в потоке.
 
-## Adding files to the stream
+## Добавление файлов в поток
 
-`src()` can also be placed in the middle of a pipeline to add files to the stream based on the given globs. The additional files will only be available to transformations later in the stream.  If [globs overlap][overlapping-globs-docs], the files will be added again.
+`src()` также можно разместить в середине конвейера для добавления файлов в поток на основе заданных globs. Дополнительные файлы будут доступны только для преобразований позже в потоке. Если [globs overlap][overlapping-globs-docs], файлы будут добавлены снова.
 
-This can be useful for transpiling some files before adding plain JavaScript files to the pipeline and uglifying everything.
+Это может быть полезно для транспиляции некоторых файлов перед добавлением простых файлов JavaScript в конвейер и отменой всего.
 
 ```js
 const { src, dest } = require('gulp');
@@ -59,11 +59,11 @@ exports.default = function() {
 }
 ```
 
-## Output in phases
+## Выход в фазах
 
-`dest()` can be used in the middle of a pipeline to write intermediate states to the filesystem. When a file is received, the current state is written out to the filesystem, the path is updated to represent the new location of the output file, then that file continues down the pipeline.
+`dest()` может использоваться в середине конвейера для записи промежуточных состояний в файловую систему. Когда файл получен, текущее состояние записывается в файловую систему, путь обновляется для представления нового местоположения выходного файла, а затем этот файл продолжается по конвейеру.
 
-This feature can be useful to create unminified and minified files with the same pipeline.
+Эта функция может быть полезна для создания неминифицированных и минифицированных файлов с помощью одного и того же конвейера.
 
 ```js
 const { src, dest } = require('gulp');
@@ -82,13 +82,13 @@ exports.default = function() {
 }
 ```
 
-## Modes: streaming, buffered, and empty
+## Режимы: потоковый, буферизованный и пустой
 
-`src()` can operate in three modes: buffering, streaming, and empty. These are configured with the `buffer` and `read` [options][src-options-api-docs] on `src()`.
+`src()` может работать в трех режимах: буферизации, потоковой передачи и пустоты. Они настраиваются с помощью [опций][src-options-api-docs] `buffer` и `read` в `src()`.
 
-* Buffering mode is the default and loads the file contents into memory. Plugins usually operate in buffering mode and many don't support streaming mode.
-* Streaming mode exists mainly to operate on large files that can't fit in memory, like giant images or movies. The contents are streamed from the filesystem in small chunks instead of loaded all at once. If you need to use streaming mode, look for a plugin that supports it or write your own.
-* Empty mode contains no contents and is useful when only working with file metadata.
+* Режим буферизации установлен по умолчанию и загружает содержимое файла в память. Плагины обычно работают в режиме буферизации, и многие из них не поддерживают режим потоковой передачи.
+* Режим потоковой передачи существует в основном для работы с большими файлами, которые не помещаются в памяти, такими как гигантские изображения или фильмы. Содержимое передается из файловой системы небольшими порциями, а не загружается сразу. Если вам нужно использовать потоковый режим, поищите плагин, который его поддерживает, или напишите свой собственный.
+* Пустой режим не содержит содержимого и полезен при работе только с метаданными файла.
 
 [explaining-globs-docs]: ../getting-started/6-explaining-globs.md
 [creating-tasks-docs]: ../getting-started/3-creating-tasks.md

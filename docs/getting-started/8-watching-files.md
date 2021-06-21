@@ -1,129 +1,129 @@
 <!-- front-matter
 id: watching-files
-title: Watching Files
+title: Наблюдение за файлами
 hide_title: true
-sidebar_label: Watching Files
+sidebar_label: Наблюдение за файлами
 -->
 
-# Watching Files
+# Наблюдение за файлами
 
-The `watch()` API connects [globs][globs-docs] to [tasks][creating-tasks-docs] using a file system watcher. It watches for changes to files that match the globs and executes the task when a change occurs. If the task doesn't signal [Async Completion][async-completion-doc], it will never be run a second time.
+`watch()` API соединяет [глобсы][globs-docs] с [задачами][creating-tasks-docs] с помощью наблюдателя файловой системы. Он отслеживает изменения в файлах, которые соответствуют глобам, и выполняет задачу, когда происходит изменение. Если задача не сигнализирует о [Async Completion][async-completion-doc], она никогда не будет запущена во второй раз.
 
-This API provides built-in delay and queueing based on most-common-use defaults.
+Этот API обеспечивает встроенную задержку и постановку в очередь на основе наиболее часто используемых значений по умолчанию.
 
 ```js
 const { watch, series } = require('gulp');
 
 function clean(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function javascript(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function css(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 exports.default = function() {
-  // You can use a single task
+  // Вы можете использовать одну задачу
   watch('src/*.css', css);
-  // Or a composed task
+  // Или составную задача
   watch('src/*.js', series(clean, javascript));
 };
 ```
 
-## Warning: avoid synchronous
+## Предупреждение: избегайте синхронности
 
-A watcher's task cannot be synchronous, like tasks registered into the task system. If you pass a sync task, the completion can't be determined and the task won't run again - it is assumed to still be running.
+Задача наблюдателя не может быть синхронной, как задачи, зарегистрированные в системе задач. Если вы передадите задачу синхронизации, завершение не может быть определено, и задача больше не будет запущена - предполагается, что она все еще выполняется.
 
-There is no error or warning message provided because the file watcher keeps your Node process running. Since the process doesn't exit, it cannot be determined whether the task is done or just taking a really, really long time to run.
+Сообщение об ошибке или предупреждении отсутствует, поскольку средство отслеживания файлов поддерживает работу вашего процесса Node. Поскольку процесс не завершается, невозможно определить, выполнена ли задача или выполняется очень-очень много времени.
 
-## Watched events
+## Наблюдаемые события
 
-By default, the watcher executes tasks whenever a file is created, changed, or deleted.
-If you need to use different events, you can use the `events` option when calling `watch()`. The available events are `'add'`, `'addDir'`, `'change'`, `'unlink'`, `'unlinkDir'`, `'ready'`, `'error'`. Additionally `'all'` is available, which represents all events other than `'ready'` and `'error'`.
+По умолчанию наблюдатель выполняет задачи всякий раз, когда файл создается, изменяется или удаляется.
+Если вам нужно использовать разные события, вы можете использовать опцию `events` при вызове `watch()`. Доступные события: `'add'`, `'addDir'`, `'change'`, `'unlink'`, `'unlinkDir'`, `'ready'`, `'error'`. Дополнительно доступно `'all'`, которое представляет все события, кроме `'ready'` и `'error'`.
 
 ```js
 const { watch } = require('gulp');
 
 exports.default = function() {
-  // All events will be watched
+  // Наблюдение за всеми событиями
   watch('src/*.js', { events: 'all' }, function(cb) {
-    // body omitted
+    // тело опущено
     cb();
   });
 };
 ```
 
-## Initial execution
+## Первоначальное выполнение
 
-Upon calling `watch()`, the tasks won't be executed, instead they'll wait for the first file change.
+После вызова `watch()`, задачи не будут выполняться, вместо этого они будут ждать первого изменения файла.
 
-To execute tasks before the first file change, set the `ignoreInitial` option to `false`.
+Чтобы выполнять задачи до первого изменения файла, установите для параметра `ignoreInitial` значение `false`.
 
 ```js
 const { watch } = require('gulp');
 
 exports.default = function() {
-  // The task will be executed upon startup
+  // Задача будет выполнена при запуске
   watch('src/*.js', { ignoreInitial: false }, function(cb) {
-    // body omitted
+    // тело опущено
     cb();
   });
 };
 ```
 
-## Queueing
+## Очередь
 
-Each `watch()` guarantees that its currently running task won't execute again concurrently. When a file change is made while a watcher task is running, another execution will queue up to run when the task finishes. Only one run can be queued up at a time.
+Каждый `watch()` гарантирует, что его текущая задача не будет выполняться снова одновременно. Когда изменение файла выполняется во время выполнения задачи-наблюдателя, другое выполнение будет помещено в очередь для выполнения, когда задача завершится. Только один запуск может быть поставлен в очередь за раз.
 
-To disable queueing, set the `queue` option to `false`.
+Чтобы отключить постановку в очередь, установите для параметра `queue` значение `false`.
 
 ```js
 const { watch } = require('gulp');
 
 exports.default = function() {
-  // The task will be run (concurrently) for every change made
+  // Задача будет запускаться (одновременно) для каждого внесенного изменения
   watch('src/*.js', { queue: false }, function(cb) {
-    // body omitted
+    // тело опущено
     cb();
   });
 };
 ```
 
-## Delay
+## Задержка
 
-Upon file change, a watcher task won't run until a 200ms delay has elapsed. This is to avoid starting a task too early when many files are being changed at once - like find-and-replace.
+При изменении файла задача-наблюдатель не запускается, пока не истечет задержка в 200 мс. Это сделано для того, чтобы не начинать задачу слишком рано, когда одновременно изменяется много файлов - например, поиск и замена.
 
-To adjust the delay duration, set the `delay` option to a positive integer.
+Чтобы настроить длительность задержки, установите для параметра `delay` положительное целое число.
 
 ```js
 const { watch } = require('gulp');
 
 exports.default = function() {
-  // The task won't be run until 500ms have elapsed since the first change
+  // Задача не будет запущена, пока не пройдет 500 мс с момента первого изменения
   watch('src/*.js', { delay: 500 }, function(cb) {
-    // body omitted
+    // тело опущено
     cb();
   });
 };
 ```
 
-## Using the watcher instance
+## Использование экземпляра наблюдателя
 
-You likely won't use this feature, but if you need full control over changed files - like access to paths or metadata - use the [chokidar][chokidar-module-package] instance returned from `watch()`.
+Скорее всего, вы не будете использовать эту функцию, но если вам нужен полный контроль над измененными файлами - например, доступ к путям или метаданным - используйте экземпляр [chokidar][chokidar-module-package], возвращенный из `watch()`.
 
-__Be careful:__ The returned chokidar instance doesn't have queueing, delay, or async completion features.
+__Будьте осторожны:__ Возвращенный экземпляр chokidar не имеет функций очереди, задержки или асинхронного завершения.
 
-## Optional dependency
+## Необязательная зависимость
 
-Gulp has an optional dependency called [fsevents][fsevents-package], which is a Mac-specific file watcher. If you see an installation warning for fsevents - _"npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents"_ - it is not an issue.
-If fsevents installation is skipped, a fallback watcher will be used and any errors occurring in your gulpfile aren't related to this warning.
+У Gulp есть необязательная зависимость, называемая [fsevents][fsevents-package], которая является наблюдателем файлов для Mac. Если вы видите предупреждение об установке для - _"npm WARN optional SKIPPING OPTIONAL DEPENDENCY: fsevents"_ - это не проблема.
+Если установка fsevents пропущена, будет использоваться резервный наблюдатель, и любые ошибки, возникающие в вашем gulpfile, не связаны с этим предупреждением.
 
 [globs-docs]: ../getting-started/6-explaining-globs.md
 [creating-tasks-docs]: ../getting-started/3-creating-tasks.md

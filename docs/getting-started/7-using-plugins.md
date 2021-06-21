@@ -1,17 +1,17 @@
 <!-- front-matter
 id: using-plugins
-title: Using Plugins
+title: Использование плагинов
 hide_title: true
-sidebar_label: Using Plugins
+sidebar_label: Использование плагинов
 -->
 
-# Using Plugins
+# Использование плагинов
 
-Gulp plugins are [Node Transform Streams][through2-docs] that encapsulate common behavior to transform files in a pipeline - often placed between `src()` and `dest()` using the `.pipe()` method. They can change the filename, metadata, or contents of every file that passes through the stream.
+Плагины Gulp - это [Node Transform Streams][through2-docs], которые инкапсулируют общее поведение для преобразования файлов в конвейере - часто помещаются между `src()` и `dest()` с помощью метода `.pipe()`. Они могут изменять имя файла, метаданные или содержимое каждого файла, проходящего через поток.
 
-Plugins from npm - using the "gulpplugin" and "gulpfriendly" keywords - can be browsed and searched on the [plugin search page][gulp-plugin-site].
+Плагины от npm, использующие ключевые слова "gulpplugin" и "gulpfriendly", можно просматривать и искать на [странице поиска плагинов][gulp-plugin-site].
 
-Each plugin should only do a small amount of work, so you can connect them like building blocks. You may need to combine a bunch of them to get the desired result.
+Каждый плагин должен выполнять лишь небольшую часть работы, поэтому вы можете соединять их как блоки сборки. Возможно, вам придется объединить их несколько, чтобы получить желаемый результат.
 
 ```js
 const { src, dest } = require('gulp');
@@ -20,22 +20,22 @@ const rename = require('gulp-rename');
 
 exports.default = function() {
   return src('src/*.js')
-    // The gulp-uglify plugin won't update the filename
+    // Плагин gulp-uglify не обновляет имя файла
     .pipe(uglify())
-    // So use gulp-rename to change the extension
+    // Поэтому используйте gulp-rename, чтобы изменить расширение
     .pipe(rename({ extname: '.min.js' }))
     .pipe(dest('output/'));
 }
 ```
 
-## Do you need a plugin?
+## Вам нужен плагин?
 
-Not everything in gulp should use plugins. They are a quick way to get started, but many operations are improved by using a module or library instead.
+Не все в gulp должны использовать плагины. Это быстрый способ начать работу, но многие операции можно улучшить, используя вместо них модуль или библиотеку.
 
 ```js
 const { rollup } = require('rollup');
 
-// Rollup's promise API works great in an `async` task
+// API обещаний Rollup отлично работает в задаче `async`
 exports.default = async function() {
   const bundle = await rollup({
     input: 'src/index.js'
@@ -48,20 +48,20 @@ exports.default = async function() {
 }
 ```
 
-Plugins should always transform files. Use a (non-plugin) Node module or library for any other operations.
+Плагины всегда должны преобразовывать файлы. Используйте (не подключаемый) модуль Node или библиотеку для любых других операций.
 
 ```js
 const del = require('delete');
 
 exports.default = function(cb) {
-  // Use the `delete` module directly, instead of using gulp-rimraf
+  // Используйте модуль `delete` напрямую, вместо использования gulp-rimraf
   del(['output/*.js'], cb);
 }
 ```
 
-## Conditional plugins
+## Условия плагинов
 
-Since plugin operations shouldn't be file-type-aware, you may need a plugin like [gulp-if][gulp-if-package] to transform subsets of files.
+Поскольку операции плагина не должны учитывать типы файлов, вам может понадобиться плагин, например [gulp-if][gulp-if-package], для преобразования подмножеств файлов.
 
 ```js
 const { src, dest } = require('gulp');
@@ -69,26 +69,27 @@ const gulpif = require('gulp-if');
 const uglify = require('gulp-uglify');
 
 function isJavaScript(file) {
-  // Check if file extension is '.js'
+  // Проверьте, является ли расширение файла '.js'
   return file.extname === '.js';
 }
 
 exports.default = function() {
-  // Include JavaScript and CSS files in a single pipeline
+  // Включите файлы JavaScript и CSS в один конвейер
   return src(['src/*.js', 'src/*.css'])
-    // Only apply gulp-uglify plugin to JavaScript files
+    // Применяйте плагин gulp-uglify только к файлам JavaScript
     .pipe(gulpif(isJavaScript, uglify()))
     .pipe(dest('output/'));
 }
 ```
 
-## Inline plugins
+## Встроенные плагины
 
-Inline plugins are one-off Transform Streams you define inside your gulpfile by writing the desired behavior.
+Встроенные плагины - это одноразовые потоки преобразования, которые вы определяете внутри своего gulpfile, записывая желаемое поведение.
 
-There are two situations where creating an inline plugin is helpful:
-* Instead of creating and maintaining your own plugin.
-* Instead of forking a plugin that exists to add a feature you want.
+Есть две ситуации, когда создание встроенного плагина полезно:
+
+* Вместо создания и поддержки собственного плагина.
+* Вместо того, чтобы разрабатывать существующий плагин, чтобы добавить желаемую функцию.
 
 ```js
 const { src, dest } = require('gulp');
@@ -97,7 +98,7 @@ const through2 = require('through2');
 
 exports.default = function() {
   return src('src/*.js')
-    // Instead of using gulp-uglify, you can create an inline plugin
+    // Вместо использования gulp-uglify вы можете создать встроенный плагин
     .pipe(through2.obj(function(file, _, cb) {
       if (file.isBuffer()) {
         const code = uglify.minify(file.contents.toString())
