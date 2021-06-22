@@ -1,22 +1,19 @@
-# Why Use Pump?
+# Зачем использовать Pump?
 
-When using `pipe` from the Node.js streams, errors are not propagated forward
-through the piped streams, and source streams aren’t closed if a destination
-stream closed. The [`pump`][pump] module normalizes these problems and passes
-you the errors in a callback.
+При использовании `pipe` из потоков Node.js ошибки не распространяются вперед через конвейерные потоки, и исходные потоки не закрываются, если целевой поток закрыт.
+Модуль [`pump`][pump] нормализует эти проблемы и передает вам ошибки в обратном вызове.
 
-## A common gulpfile example
+## Типичный пример gulpfile
 
-A common pattern in gulp files is to simply return a Node.js stream, and expect
-the gulp tool to handle errors.
+Обычный шаблон в файлах gulp - просто вернуть поток Node.js и ожидать, что инструмент gulp обработает ошибки.
 
 ```javascript
-// example of a common gulpfile
+// пример обычного gulpfile
 var gulp = require('gulp');
 var uglify = require('gulp-uglify');
 
 gulp.task('compress', function () {
-  // returns a Node.js stream, but no handling of error messages
+  // возвращает поток Node.js, но не обрабатывает сообщения об ошибках
   return gulp.src('lib/*.js')
     .pipe(uglify())
     .pipe(gulp.dest('dist'));
@@ -25,22 +22,16 @@ gulp.task('compress', function () {
 
 ![pipe error](pipe-error.png)
 
-There’s an error in one of the JavaScript files, but that error message is the
-opposite of helpful. You want to know what file and line contains the error. So
-what is this mess?
+В одном из файлов JavaScript есть ошибка, но это сообщение об ошибке не имеет смысла. Вы хотите знать, в каком файле и строке содержится ошибка. Так что это за беспорядок?
 
-When there’s an error in a stream, the Node.js stream fire the 'error' event,
-but if there’s no handler for this event, it instead goes to the defined
-[uncaught exception][uncaughtException] handler. The default behavior of the
-uncaught exception handler is documented:
+Когда в потоке возникает ошибка, поток Node.js запускает событие 'error', но если для этого события нет обработчика, оно вместо этого переходит к определенному обработчику [uncaught exception][uncaughtException].
+Задокументировано поведение обработчика неперехваченных исключений по умолчанию:
 
-> By default, Node.js handles such exceptions by printing the stack trace to
-> stderr and exiting.
+> По умолчанию Node.js обрабатывает такие исключения, выводя трассировку стека в stderr и завершая работу.
 
-## Handling the Errors
+## Обработка ошибок
 
-Since allowing the errors to make it to the uncaught exception handler isn’t
-useful, we should handle the exceptions properly. Let’s give that a quick shot.
+Поскольку разрешать ошибкам попадать в обработчик неперехваченных исключений бесполезно, мы должны обрабатывать исключения должным образом. Давайте быстро попробуем.
 
 ```javascript
 var gulp = require('gulp');
@@ -56,9 +47,7 @@ gulp.task('compress', function () {
 });
 ```
 
-Unfortunately, Node.js stream’s `pipe` function doesn’t forward errors through
-the chain, so this error handler only handles the errors given by
-`gulp.dest`. Instead we need to handle errors for each stream.
+К сожалению, функция `pipe` потока Node.js не пересылает ошибки по цепочке, поэтому этот обработчик ошибок обрабатывает только ошибки, заданные `gulp.dest`. Вместо этого нам нужно обрабатывать ошибки для каждого потока.
 
 ```javascript
 var gulp = require('gulp');
@@ -80,17 +69,11 @@ gulp.task('compress', function () {
 });
 ```
 
-This is a lot of complexity to add in each of your gulp tasks, and it’s easy to
-forget to do it. In addition, it’s still not perfect, as it doesn’t properly
-signal to gulp’s task system that the task has failed. We can fix this, and we
-can handle the other pesky issues with error propogations with streams, but it’s
-even more work!
+Это очень сложно добавить в каждую из ваших задач gulp, и это легко забыть сделать. Кроме того, он все еще несовершенен, поскольку не сигнализирует системе задач gulp, что задача не выполнена. Мы можем это исправить, и мы можем решить другие неприятные проблемы, связанные с распространением ошибок с потоками, но это еще больше работы!
 
-## Using pump
+## Использование pump
 
-The [`pump`][pump] module is a cheat code of sorts. It’s a wrapper around the
-`pipe` functionality that handles these cases for you, so you can stop hacking
-on your gulpfiles, and get back to hacking new features into your app.
+Модуль [`pump`][pump] представляет собой своего рода чит-код. Это оболочка для функции `pipe`, которая обрабатывает эти случаи за вас, так что вы можете прекратить взламывать свои файлы gulp и вернуться к взламыванию новых функций в своем приложении.
 
 ```javascript
 var gulp = require('gulp');
@@ -108,15 +91,11 @@ gulp.task('compress', function (cb) {
 });
 ```
 
-The gulp task system provides a gulp task with a callback, which can signal
-successful task completion (being called with no arguments), or a task failure
-(being called with an Error argument). Fortunately, this is the exact same
-format `pump` uses!
+Система задач gulp предоставляет задачу gulp с обратным вызовом, который может сигнализировать об успешном завершении задачи (вызывается без аргументов) или сбое задачи (вызывается с аргументом Error). К счастью, это тот же самый формат, который использует `pump`!
 
 ![pump error](pump-error.png)
 
-Now it’s very clear what plugin the error was from, what the error actually was,
-and from what file and line number.
+Теперь очень ясно, в каком плагине произошла ошибка, в чем действительно была ошибка, в каком файле и в каком номере строки.
 
 [pump]: https://github.com/mafintosh/pump
 [uncaughtException]: https://nodejs.org/api/process.html#process_event_uncaughtexception
