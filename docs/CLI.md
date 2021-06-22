@@ -1,59 +1,52 @@
-## gulp CLI docs
+# Документация по gulp CLI
 
-### Flags
+## Флаги
 
-gulp has very few flags to know about. All other flags are for tasks to use if needed.
+У gulp очень мало флагов, о которых нужно знать. Все остальные флаги используются задачами при необходимости.
 
-- `-v` or `--version` will display the global and local gulp versions
-- `--require <module path>` will require a module before running the gulpfile. This is useful for transpilers but also has other applications. You can use multiple `--require` flags
-- `--gulpfile <gulpfile path>` will manually set path of gulpfile. Useful if you have multiple gulpfiles. This will set the CWD to the gulpfile directory as well
-- `--cwd <dir path>` will manually set the CWD. The search for the gulpfile, as well as the relativity of all requires will be from here
-- `-T` or `--tasks` will display the task dependency tree for the loaded gulpfile. It will include the task names and their [description](./API.md#fndescription).
-- `--tasks-simple` will display a plaintext list of tasks for the loaded gulpfile
-- `--verify` will verify plugins referenced in project's package.json against the plugins blacklist
-- `--color` will force gulp and gulp plugins to display colors even when no color support is detected
-- `--no-color` will force gulp and gulp plugins to not display colors even when color support is detected
-- `--silent` will disable all gulp logging
+- `-v` или `--version` отобразит глобальную и локальную версии gulp
+- `--require <module path>` потребует модуль перед запуском gulpfile. Это полезно для транспилеров, но также имеет другие применения. Вы можете использовать несколько флагов `--require`
+- `--gulpfile <gulpfile path>` вручную установит путь к gulpfile. Полезно, если у вас несколько файлов gulp. Это также установит CWD в каталог gulpfile
+- `--cwd <dir path>` вручную установит CWD. Поиск gulpfile, а также относительность всего необходимого будут отсюда
+- `-T` или `--tasks` отобразит дерево зависимостей задач для загруженного gulpfile. Он будет включать названия задач и их [описание](./API.md#fndescription).
+- `--tasks-simple` отобразит список задач в виде открытого текста для загруженного файла gulp
+- `--verify` проверяет плагины, указанные в package.json проекта, на соответствие черному списку плагинов
+- `--color` заставит плагины gulp и gulp отображать цвета, даже если поддержка цвета не обнаружена
+- `--no-color` заставит плагины gulp и gulp не отображать цвета, даже если обнаружена поддержка цвета
+- `--silent` отключит все журналы gulp
 
-The CLI adds process.env.INIT_CWD which is the original cwd it was launched from.
+Интерфейс командной строки добавляет process.env.INIT_CWD, который является исходным cwd, из которого он был запущен.
 
-#### Task specific flags
+### Флаги для конкретных задач
 
-Refer to this [StackOverflow](https://stackoverflow.com/questions/23023650/is-it-possible-to-pass-a-flag-to-gulp-to-have-it-run-tasks-in-different-ways) link for how to add task specific flags
+Обратитесь к [StackOverflow](https://stackoverflow.com/questions/23023650/is-it-possible-to-pass-a-flag-to-gulp-to-have-it-run-tasks-in-different-ways) ссылка для добавления флагов для конкретных задач
 
-### Tasks
+## Задачи (Таски)
 
-Tasks can be executed by running `gulp <task> <task>...`.
+Задачи можно выполнить, запустив `gulp <task> <task>...`.
 
-If more than one task is listed, Gulp will execute all of them
-concurrently, that is, as if they had all been listed as dependencies of
-a single task.
+Если в списке указано более одной задачи, Gulp будет выполнять все из них одновременно, то есть, как если бы все они были перечислены как зависимости одной задачи.
 
-Gulp does not serialize tasks listed on the command line. From using
-other comparable tools users may expect to execute something like
-`gulp clean build`, with tasks named `clean` and `build`. This will not
-produce the intended result, as the two tasks will be executed
-concurrently.
+Gulp не сериализует задачи, перечисленные в командной строке. Используя другие сопоставимые инструменты, пользователи могут ожидать выполнения чего-то вроде `gulp clean build` с задачами с именами `clean` и `build`. Это не даст желаемого результата, так как две задачи будут выполняться одновременно.
 
-Just running `gulp` will execute the task `default`. If there is no
-`default` task, gulp will error.
+Просто запуск `gulp` выполнит задачу `default`. Если нет задачи по умолчанию `default`, gulp выдаст ошибку.
 
-### Compilers
+### Компиляторы
 
-You can find a list of supported languages at [interpret](https://github.com/tkellen/node-interpret#jsvariants). If you would like to add support for a new language send pull request/open issues there.
+Вы можете найти список поддерживаемых языков в [интерпретировать](https://github.com/tkellen/node-interpret#jsvariants). Если вы хотите добавить поддержку нового языка, отправьте туда ПР/откройте проблему.
 
-### Examples
+## Примеры
 
-#### Example gulpfile
+### Пример gulpfile
 
 ```js
 gulp.task('one', function(done) {
-  // do stuff
+  // делать что-то
   done();
 });
 
 gulp.task('two', function(done) {
-  // do stuff
+  // делать что-то
   done();
 });
 
@@ -69,23 +62,24 @@ gulp.task('four', gulp.series('one', 'two'));
 gulp.task('five',
   gulp.series('four',
     gulp.parallel('three', function(done) {
-      // do more stuff
+      // делать что-то еще
       done();
     })
   )
 );
 ```
 
-### `-T` or `--tasks`
+## `-T` or `--tasks`
 
-Command: `gulp -T` or `gulp --tasks`
+Команда: `gulp -T` или `gulp --tasks`
 
-Output:
+Вывод:
+
 ```shell
 [20:58:55] Tasks for ~\exampleProject\gulpfile.js
 [20:58:55] ├── one
 [20:58:55] ├── two
-[20:58:55] ├── three                                         This is the description of task three
+[20:58:55] ├── three                                         Это описание третьей задачи
 [20:58:55] ├─┬ four
 [20:58:55] │ └─┬ <series>
 [20:58:55] │   ├── one
@@ -101,11 +95,12 @@ Output:
 [20:58:55] │     └── <anonymous>
 ```
 
-### `--tasks-simple`
+## `--tasks-simple`
 
-Command: `gulp --tasks-simple`
+Команда: `gulp --tasks-simple`
 
-Output:
+Вывод:
+
 ```shell
 one
 two
