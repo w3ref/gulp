@@ -11,7 +11,7 @@ Determines if a property is internally managed by Vinyl. Used by Vinyl when sett
 
 This method is useful when extending the Vinyl class. Detailed in [Extending Vinyl][extending-vinyl-section] below.
 
-## Usage
+## Применение
 
 ```js
 const Vinyl = require('vinyl');
@@ -20,19 +20,19 @@ Vinyl.isCustomProp('sourceMap') === true;
 Vinyl.isCustomProp('path') === false;
 ```
 
-## Signature
+## Подпись
 
 ```js
 Vinyl.isCustomProp(property)
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:------:|-------|
 | property | string | The property name to check. |
 
-### Returns
+### Возвращается
 
 True if the property is not internally managed.
 

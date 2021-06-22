@@ -13,7 +13,7 @@ Vinyl objects can have transformations applied using [plugins][using-plugins-doc
 
 When creating your own Vinyl objects - instead of generating with `src()` - use the external `vinyl` module, as shown in Usage below.
 
-## Usage
+## Применение
 
 ```js
 const Vinyl = require('vinyl');
@@ -43,29 +43,29 @@ file.extname = '.js';
 file.path === '/specs/foo.js';
 ```
 
-## Signature
+## Подпись
 
 ```js
 new Vinyl([options])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| options | object | Detailed in [Options][options-section] below. |
+| options | object | Подробнее в  [Опциях][options-section] ниже. |
 
-### Returns
+### Возвращается
 
 An instance of the Vinyl class representing a single virtual file, detailed in [Vinyl instance][vinyl-instance-section] below.
 
-### Errors
+### Ошибки
 
 When any passed options don't conform to the [instance property definitions][instance-properties-section] (like if `path` is set to a number) throws as defined in the table.
 
-### Options
+### Опции
 
-| name | type | default | note |
+| наименование | тип | по умолчанию | примечание |
 |:-------:|:------:|-----------|--------|
 | cwd | string | `process.cwd()` | The directory from which relative paths will be derived. Will be [normalized][normalization-and-concatenation-section] and have trailing separators removed. |
 | base | string | | Used to calculate the `relative` instance property. Falls back to the value of `cwd` if not set. Typically set to the [glob base][glob-base-concepts]. Will be [normalized][normalization-and-concatenation-section] and have trailing separators removed.|

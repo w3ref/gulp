@@ -7,11 +7,11 @@ sidebar_label: lastRun()
 
 # lastRun()
 
-Retrieves the last time a task was successfully completed during the current running process. Most useful on subsequent task runs while a watcher is running.
+Извлекает время последнего успешного завершения задачи во время текущего запущенного процесса. Наиболее полезно при последующих запусках задач во время работы наблюдателя.
 
-When combined with `src()`, enables incremental builds to speed up execution times by skipping files that haven't changed since the last successful task completion.
+В сочетании с `src()`, включает инкрементные сборки для ускорения времени выполнения, пропуская файлы, которые не изменились с момента последнего успешного завершения задачи.
 
-## Usage
+## Применение
 
 ```js
 const { src, dest, lastRun, watch } = require('gulp');
@@ -28,54 +28,51 @@ exports.default = function() {
 };
 ```
 
-
-## Signature
+## Подпись
 
 ```js
 lastRun(task, [precision])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| task<br />**(required)** | function<br />string | The task function or the string alias of a registered task. |
-| precision | number | Default: `1000` on Node v0.10, `0` on Node v0.12+. Detailed in [Timestamp precision][timestamp-precision-section] section below. |
+| task<br />**(required)** | function<br />string | Функция задачи или строковый псевдоним зарегистрированной задачи. |
+| precision | number | По умолчанию: `1000` на Node v0.10, `0` на Node v0.12+. Подробно в разделе [Точность отметки времени][timestamp-precision-section] ниже. |
 
-### Returns
+### Возвращается
 
-A timestamp (in milliseconds), matching the last completion time of the task. If the task has not been run or has failed, returns `undefined`.
+Отметка времени (в миллисекундах), соответствующая времени последнего завершения задачи. Если задача не была запущена или завершилась неудачно, возвращает `undefined`.
 
-To avoid an invalid state being cached, the returned value will be `undefined` if a task errors.
+Чтобы избежать кэширования недопустимого состояния, возвращаемое значение будет `undefined`, если в задаче возникнет ошибка.
 
-### Errors
+### Ошибки
 
-When called with a value other than a string or function, throws an error with the message, "Only functions can check lastRun".
+При вызове со значением, отличным от строки или функции, выдает ошибку с сообщением: "Only functions can check lastRun".
 
-When called on a non-extensible function and Node is missing WeakMap, throws an error with the message, "Only extensible functions can check lastRun".
+При вызове нерасширяемой функции и отсутствии Node WeakMap выдает ошибку с сообщением: "Only extensible functions can check lastRun".
 
-## Timestamp precision
+## Точность временной метки
 
-While there are sensible defaults for the precision of timestamps, they can be rounded using the `precision` parameter. Useful if your file system or Node version has a lossy precision on file time attributes.
+Хотя существуют разумные значения по умолчанию для точности временных меток, их можно округлить с помощью параметра `precision`. Полезно, если ваша файловая система или версия Node имеют точность с потерями в атрибутах времени файла.
 
-* `lastRun(someTask)` returns 1426000001111
-* `lastRun(someTask, 100)` returns 1426000001100
-* `lastRun(someTask, 1000)` returns 1426000001000
+* `lastRun(someTask)` вернет 1426000001111
+* `lastRun(someTask, 100)` вернет 1426000001100
+* `lastRun(someTask, 1000)` вернет 1426000001000
 
-A file's [mtime stat][fs-stats-concepts] precision may vary depending on the node version and/or the file system used.
+Точность файла [mtime stat][fs-stats-concepts] может варьироваться в зависимости от версии узла и/или используемой файловой системы.
 
-
-| platform | precision |
+| платформа | точность |
 |:-----------:|:------------:|
 | Node v0.10 | 1000ms |
 | Node v0.12+ | 1ms |
-| FAT32 file system | 2000ms |
-| HFS+ or Ext3 file systems | 1000ms |
-| NTFS using Node v0.10 | 1s |
-| NTFS using Node 0.12+ | 100ms |
-| Ext4 using Node v0.10 | 1000ms |
-| Ext4 using Node 0.12+ | 1ms |
-
+| Файловая система FAT32 | 2000ms |
+| Файловые системы HFS+ или Ext3 | 1000ms |
+| NTFS с использованием Node v0.10 | 1s |
+| NTFS с использованием Node 0.12+ | 100ms |
+| Ext4 с использованием Node v0.10 | 1000ms |
+| Ext4 с использованием Node 0.12+ | 1ms |
 
 [timestamp-precision-section]: #timestamp-precision
 [fs-stats-concepts]: ../api/concepts.md#file-system-stats

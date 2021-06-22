@@ -7,15 +7,15 @@ sidebar_label: registry()
 
 # registry()
 
-Allows custom registries to be plugged into the task system, which can provide shared tasks or augmented functionality.
+Позволяет подключать настраиваемые реестры к системе задач, которая может предоставлять общие задачи или расширенную функциональность.
 
-**Note:** Only tasks registered with `task()` will be provided to the custom registry. The task functions passed directly to `series()` or `parallel()` will not be provided - if you need to customize the registry behavior, compose tasks with string references.
+**Примечание:** В настраиваемый реестр будут добавлены только задачи, зарегистрированные с помощью `task()`. Функции задач, переданные непосредственно в `series()` или `parallel()`, не будут предоставлены - если вам нужно настроить поведение реестра, составьте задачи со строковыми ссылками.
 
-When assigning a new registry, each task from the current registry will be transferred and the current registry will be replaced with the new one. This allows for adding multiple custom registries in sequential order.
+При назначении нового реестра каждая задача из текущего реестра будет перенесена, а текущий реестр будет заменен новым. Это позволяет добавлять несколько настраиваемых реестров в последовательном порядке.
 
-See [Creating Custom Registries][creating-custom-registries] for details.
+Смотрите [Создание настраиваемых реестров][creating-custom-registries] для получения дополнительной информации.
 
-## Usage
+## Применение
 
 ```js
 const { registry, task, series } = require('gulp');
@@ -26,56 +26,56 @@ registry(FwdRef());
 task('default', series('forward-ref'));
 
 task('forward-ref', function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 });
 ```
 
-## Signature
+## Подпись
 
 ```js
 registry([registryInstance])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:-----:|--------|
-| registryInstance | object | An instance - not the class - of a custom registry. |
+| registryInstance | object | Экземпляр, а не класс настраиваемого реестра. |
 
-### Returns
+### Возвращается
 
-If a `registryInstance` is passed, nothing will be returned. If no arguments are passed, returns the current registry instance.
+Если будет передан объект `registryInstance`, ничего не будет возвращено. Если аргументы не переданы, возвращает текущий экземпляр реестра.
 
-### Errors
+### Ошибки
 
-#### Incorrect parameter
+#### Неверный параметр
 
-When a constructor (instead of an instance) is passed as `registryInstance`, throws an error with the message:
+Когда конструктор (вместо экземпляра) передается как `registryInstance`, выдает ошибку с сообщением:
 
 > Custom registries must be instantiated, but it looks like you passed a constructor.
 
 #### Missing `get` method
 
-When a registry without a `get` method is passed as `registryInstance`, throws an error with the message:
+Когда реестр без метода `get` передается как `registryInstance`, выдает ошибку с сообщением:
 
 > Custom registry must have `get` function.
 
 #### Missing `set` method
 
-When a registry without a `set` method is passed as `registryInstance`, throws an error with the message:
+Когда реестр без метода `set` передается как `registryInstance`, выдает ошибку с сообщением:
 
 > Custom registry must have `set` function.
 
 #### Missing `init` method
 
-When a registry without an `init` method is passed as `registryInstance`, throws an error with the message:
+Когда реестр без метода `init` передается как `registryInstance`, выдает ошибку с сообщением:
 
 > Custom registry must have `init` function"
 
 #### Missing `tasks` method
 
-When a registry without a `tasks` method is passed as `registryInstance`, throws an error with the message:
+Когда реестр без метода `tasks` передается как `registryInstance`, выдает ошибку с сообщением:
 
 > Custom registry must have `tasks` function.
 

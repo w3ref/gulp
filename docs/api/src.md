@@ -7,11 +7,11 @@ sidebar_label: src()
 
 # src()
 
-Creates a stream for reading [Vinyl][vinyl-concepts] objects from the file system.
+Создает поток для чтения объектов [Vinyl][vinyl-concepts] из файловой системы.
 
-**Note:** BOMs (byte order marks) have no purpose in UTF-8 and will be removed from UTF-8 files read by `src()`, unless disabled using the `removeBOM` option.
+**Примечание:** Спецификации BOM (метки порядка байтов) не имеют смысла в UTF-8 и будут удалены из файлов UTF-8, читаемых `src()`, если они не отключены с помощью опции `removeBOM`.
 
-## Usage
+## Применение
 
 ```javascript
 const { src, dest } = require('gulp');
@@ -24,76 +24,75 @@ function copy() {
 exports.copy = copy;
 ```
 
-
-## Signature
+## Подпись
 
 ```js
 src(globs, [options])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| globs | string<br />array | [Globs][globs-concepts] to watch on the file system. |
-| options | object | Detailed in [Options][options-section] below. |
+| globs | string<br />array | [Globs][globs-concepts] для просмотра файловой системы. |
+| options | object | Подробно в [Опциях][options-section] ниже. |
 
-### Returns
+### Возвращается
 
-A stream that can be used at the beginning or in the middle of a pipeline to add files based on the given globs.
+Поток, который можно использовать в начале или в середине конвейера для добавления файлов на основе заданных глобов.
 
-### Errors
+### Ошибки
 
-When the `globs` argument can only match one file (such as `foo/bar.js`) and no match is found, throws an error with the message, "File not found with singular glob". To suppress this error, set the `allowEmpty` option to `true`.
+Когда аргумент `globs` может соответствовать только одному файлу (например, `foo/bar.js`) и совпадений не найдено, выдает ошибку с сообщением «Файл не найден с единичным глобом». Чтобы подавить эту ошибку, установите для опции `allowEmpty` значение `true`.
 
-When an invalid glob is given in `globs`, throws an error with the message, "Invalid glob argument".
+Когда в `globs` задан недопустимый глоб, выдает ошибку с сообщением «Недопустимый аргумент глоба».
 
-### Options
+### Опции
 
-**For options that accept a function, the passed function will be called with each Vinyl object and must return a value of another listed type.**
+**Для параметров, которые принимают функцию, переданная функция будет вызываться с каждым объектом Vinyl и должна возвращать значение другого перечисленного типа.**
 
-
-| name | type | default | note |
+| наименование | тип | по умолчанию | примечание |
 |:--------:|:------:|------------|--------|
-| buffer | boolean<br />function | true | When true, file contents are buffered into memory. If false, the Vinyl object's `contents` property will be a paused stream. It may not be possible to buffer the contents of large files.<br />**Note:** Plugins may not implement support for streaming contents. |
-| read | boolean<br />function | true | If false, files will be not be read and their Vinyl objects won't be writable to disk via `.dest()`. |
-| since | date<br />timestamp<br />function | | When set, only creates Vinyl objects for files modified since the specified time. |
-| removeBOM | boolean<br />function | true | When true, removes the BOM from UTF-8 encoded files. If false, ignores a BOM. |
-| sourcemaps | boolean<br />function | false | If true, enables [sourcemaps][sourcemaps-section] support on Vinyl objects created. Loads inline sourcemaps and resolves external sourcemap links. |
-| resolveSymlinks | boolean<br />function | true | When true, recursively resolves symbolic links to their targets. If false, preserves the symbolic links and sets the Vinyl object's `symlink` property to the original file's path. |
-| cwd | string | `process.cwd()` | The directory that will be combined with any relative path to form an absolute path. Is ignored for absolute paths. Use to avoid combining `globs` with `path.join()`.<br />_This option is passed directly to [glob-stream][glob-stream-external]._ |
-| base | string | | Explicitly set the `base` property on created Vinyl objects. Detailed in [API Concepts][glob-base-concepts].<br />_This option is passed directly to [glob-stream][glob-stream-external]._ |
-| cwdbase | boolean | false | If true, `cwd` and `base` options should be aligned.<br />_This option is passed directly to [glob-stream][glob-stream-external]._ |
-| root | string | | The root path that `globs` are resolved against.<br />_This option is passed directly to [glob-stream][glob-stream-external]._ |
-| allowEmpty | boolean | false | When false, `globs` which can only match one file (such as `foo/bar.js`) causes an error to be thrown if they don't find a match. If true, suppresses glob failures.<br />_This option is passed directly to [glob-stream][glob-stream-external]._ |
-| uniqueBy | string<br />function | `'path'` | Remove duplicates from the stream by comparing the string property name or the result of the function.<br />**Note:** When using a function, the function receives the streamed data (objects containing `cwd`, `base`, `path` properties). |
-| dot | boolean | false | If true, compare globs against dot files, like `.gitignore`.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| silent | boolean | true | When true, suppresses warnings from printing on `stderr`.<br />**Note:** This option is passed directly to [node-glob][node-glob-external] but defaulted to `true` instead of `false`. |
-| mark | boolean | false | If true, a `/` character will be appended to directory matches. Generally not needed because paths are normalized within the pipeline.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| nosort | boolean | false | If true, disables sorting the glob results.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| stat | boolean | false | If true, `fs.stat()` is called on all results. This adds extra overhead and generally should not be used.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| strict | boolean | false | If true, an error will be thrown if an unexpected problem is encountered while attempting to read a directory.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| nounique | boolean | false | When false, prevents duplicate files in the result set.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| debug | boolean | false | If true, debugging information will be logged to the command line.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| nobrace | boolean | false | If true, avoids expanding brace sets - e.g. `{a,b}` or `{1..3}`.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| noglobstar | boolean | false | If true, treats double-star glob character as single-star glob character.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| noext | boolean | false | If true, avoids matching [extglob][extglob-docs] patterns - e.g. `+(ab)`.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| nocase | boolean | false | If true, performs a case-insensitive match.<br />**Note:** On case-insensitive file systems, non-magic patterns will match by default.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| matchBase | boolean | false | If true and globs don't contain any `/` characters, traverses all directories and matches that glob - e.g. `*.js` would be treated as equivalent to `**/*.js`.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| nodir | boolean | false | If true, only matches files, not directories.<br />**Note:** To match only directories, end your glob with a `/`.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| ignore | string<br />array | | Globs to exclude from matches. This option is combined with negated `globs`.<br />**Note:** These globs are always matched against dot files, regardless of any other settings.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| follow | boolean | false | If true, symlinked directories will be traversed when expanding `**` globs.<br />**Note:** This can cause problems with cyclical links.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| realpath | boolean | false | If true, `fs.realpath()` is called on all results. This may result in dangling links.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| cache | object | | A previously generated cache object - avoids some file system calls.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| statCache | object | | A previously generated cache of `fs.Stat` results - avoids some file system calls.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| symlinks | object | | A previously generated cache of symbolic links - avoids some file system calls.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
-| nocomment | boolean | false | When false, treat a `#` character at the start of a glob as a comment.<br />_This option is passed directly to [node-glob][node-glob-external]._ |
+| buffer | boolean<br />function | true | Если установлено значение `true`, содержимое файла буферизуется в памяти. Если `false`, свойство объекта Vinyl `contents` будет приостановленным потоком. Буферизация содержимого больших файлов может оказаться невозможной.<br />**Примечание:** Плагины могут не поддерживать потоковую передачу содержимого. |
+| read | boolean<br />function | true | Если `false`, файлы не будут прочитаны, а их объекты Vinyl не будут доступны для записи на диск через `.dest()`. |
+| since | date<br />timestamp<br />function | | Если установлено, создает объекты Vinyl только для файлов, измененных с указанного времени. |
+| removeBOM | boolean<br />function | true | Если задано значение `true`, удаляет спецификацию из файлов в кодировке UTF-8. Если `false`, игнорирует спецификацию. |
+| sourcemaps | boolean<br />function | false | Если `true`, включает поддержку [sourcemaps][sourcemaps-section] для созданных объектов Vinyl. Загружает встроенные карты источников и разрешает ссылки на внешние карты источников. |
+| resolveSymlinks | boolean<br />function | true | Если установлено значение `true`, рекурсивно разрешает символические ссылки на их цели. Если `false`, символические ссылки сохраняются, а для свойства `symlink` объекта Vinyl устанавливается путь к исходному файлу. |
+| cwd | string | `process.cwd()` | Каталог, который будет объединен с любым относительным путем, чтобы сформировать абсолютный путь. Игнорируется для абсолютных путей. Используйте, чтобы избежать объединения `globs` c `path.join()`.<br />_Эта опция передается непосредственно [glob-stream][glob-stream-external]._ |
+| base | string | | Явно установите свойство `base` для созданных объектов Vinyl. Подробно в [Концепции API][glob-base-concepts].<br />_Эта опция передается непосредственно в [glob-stream][glob-stream-external]._ |
+| cwdbase | boolean | false | Если `true`, параметры `cwd` и `base` должны быть выровнены..<br />_Эта опция передается непосредственно в [glob-stream][glob-stream-external]._ |
+| root | string | | Корневой путь, по которому разрешаются `globs`.<br />_Эта опция передается непосредственно в [glob-stream][glob-stream-external]._ |
+| allowEmpty | boolean | false | Если установлено значение `false`, `globs`, который может соответствовать только одному файлу (например, `foo/bar.js`) вызывает ошибку, если они не находят совпадения. Если `true`, подавляет сбои glob.<br />_Эта опция передается непосредственно в [glob-stream][glob-stream-external]._ |
+| uniqueBy | string<br />function | `'path'` | Удалите дубликаты из потока, сравнив имя свойства строки или результат функции.<br />**Примечание:** При использовании функции функция получает передаваемые данные (объекты, содержащие свойства `cwd`, `base`, `path`). |
+| dot | boolean | false | Если `true`, сравнивайте глобы с точечными файлами, такими как `.gitignore`.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| silent | boolean | true | When `true`, подавляет печать предупреждений на `stderr`.<br />**Примечание:** Эта опция передается непосредственно в [node-glob][node-glob-external] but defaulted to ``true`` instead of `false`. |
+| mark | boolean | false | Если `true`, к совпадениям каталогов будет добавлен символ `/`. Обычно не требуется, поскольку пути в конвейере нормализованы..<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| nosort | boolean | false | Если `true`, отключает сортировку результатов glob.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| stat | boolean | false | Если `true`, для всех результатов вызывается `fs.stat()`. Это добавляет дополнительные накладные расходы и, как правило, не должно использоваться.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| strict | boolean | false | Если `true`, будет выдана ошибка, если возникнет неожиданная проблема при попытке чтения каталога.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| nounique | boolean | false | Когда `false`, предотвращает дублирование файлов в результирующем наборе.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| debug | boolean | false | Если `true`, отладочная информация будет записана в командную строку.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| nobrace | boolean | false | Если `true`, избегает раскрытия наборов фигурных скобок - например: `{a,b}` или `{1..3}`.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| noglobstar | boolean | false | Если `true`, рассматривает символ шара с двумя звездами как символ шара с одной звездой.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| noext | boolean | false | Если `true`, исключает сопоставление шаблонов [extglob][extglob-docs] - например, `+(ab)`.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| nocase | boolean | false | Если `true`, выполняет поиск без учета регистра.<br />**Примечание:** В файловых системах без учета регистра немагические шаблоны будут совпадать по умолчанию.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| matchBase | boolean | false | Если `true` и globs не содержат символов `/`, просматривает все каталоги и сопоставляет этот глоб - например, `*.js` будет рассматриваться как эквивалент `**/*.js`.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| nodir | boolean | false | Если `true`, соответствует только файлам, а не каталогам.<br />**Примечание:** Чтобы соответствовать только каталогам, завершите глоб символом `/`.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| ignore | string<br />array | | Globs , которые нужно исключить из совпадений. Эта опция комбинируется с инвертированными `globs`.<br />**Примечание:** Эти глобы всегда сопоставляются с точечными файлами, независимо от любых других настроек.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| follow | boolean | false | Если `true`, каталоги, связанные с символьными ссылками, будут перемещаться при раскрытии globs `**`.<br />**Примечание:** Это может вызвать проблемы с циклическими ссылками.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| realpath | boolean | false | Если `true`, для всех результатов вызывается `fs.realpath()`. Это может привести к зависанию ссылок.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| cache | object | | Ранее созданный объект кеша - позволяет избежать некоторых вызовов файловой системы.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| statCache | object | | Ранее созданный кеш результатов `fs.Stat` - позволяет избежать некоторых вызовов файловой системы.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| symlinks | object | | Ранее созданный кеш символьных ссылок - позволяет избежать некоторых вызовов файловой системы.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
+| nocomment | boolean | false | Когда `false`, трактует символ `#` в начале глоба, как комментарий.<br />_Эта опция передается непосредственно в [node-glob][node-glob-external]._ |
 
-## Sourcemaps
+## Исходные карты
 
-Sourcemap support is built directly into `src()` and `dest()`, but is disabled by default. Enable it to produce inline or external sourcemaps.
+Поддержка Sourcemap встроена непосредственно в `src()` и `dest()`, но по умолчанию отключена. Включите его для создания встроенных или внешних исходных карт.
 
-Inline sourcemaps:
+Встроенные исходные карты:
+
 ```js
 const { src, dest } = require('gulp');
 const uglify = require('gulp-uglify');
@@ -103,7 +102,8 @@ src('input/**/*.js', { sourcemaps: true })
   .pipe(dest('output/', { sourcemaps: true }));
 ```
 
-External sourcemaps:
+Внешние исходные карты:
+
 ```js
 const { src, dest } = require('gulp');
 const uglify = require('gulp-uglify');

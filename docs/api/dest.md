@@ -7,9 +7,9 @@ sidebar_label: dest()
 
 # dest()
 
-Creates a stream for writing [Vinyl][vinyl-concepts] objects to the file system.
+Создает поток для записи объектов [Винил][vinyl-concepts] в файловую систему.
 
-## Usage
+## Применение
 
 ```js
 const { src, dest } = require('gulp');
@@ -22,66 +22,67 @@ function copy() {
 exports.copy = copy;
 ```
 
-## Signature
+## Подпись
 
 ```js
 dest(directory, [options])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:-----:|--------|
-| directory<br />**(required)** | string<br />function | The path of the output directory where files will be written. If a function is used, the function will be called with each Vinyl object and must return a string directory path. |
-| options | object | Detailed in [Options][options-section] below. |
+| directory<br />**(required)** | string<br />function | Путь к выходному каталогу, в который будут записаны файлы. Если функция используется, она будет вызываться с каждым объектом Vinyl и должна возвращать строковый путь к каталогу. |
+| options | object | Подробнее в  [Опциях][options-section] ниже. |
 
-### Returns
+### Возвращается
 
-A stream that can be used in the middle or at the end of a pipeline to create files on the file system.
-Whenever a Vinyl object is passed through the stream, it writes the contents and other details out to the file system at the given directory. If the Vinyl object has a `symlink` property, a symbolic link will be created instead of writing the contents. After the file is created, its [metadata will be updated][metadata-updates-section] to match the Vinyl object.
+Поток, который можно использовать в середине или в конце конвейера для создания файлов в файловой системе.
+Всякий раз, когда объект Vinyl проходит через поток, он записывает содержимое и другие детали в файловую систему в данном каталоге. Если объект Vinyl имеет свойство `symlink`, символическая ссылка будет создана вместо записи содержимого. После создания файла его [метаданные будут обновлены][metadata-updates-section] для соответствия объекту Vinyl.
 
-Whenever a file is created on the file system, the Vinyl object will be modified.
-* The `cwd`, `base`, and `path` properties will be updated to match the created file.
-* The `stat` property will be updated to match the file on the file system.
-* If the `contents` property is a stream, it will be reset so it can be read again.
+Каждый раз, когда файл создается в файловой системе, объект Vinyl будет изменен.
 
-### Errors
+* Свойства `cwd`, `base` и `path` будут обновлены, чтобы соответствовать созданному файлу.
+* Свойство `stat` будет обновлено, чтобы соответствовать файлу в файловой системе.
+* Если свойство `contents` является потоком, оно будет сброшено, чтобы его можно было прочитать снова.
 
-When `directory` is an empty string, throws an error with the message, "Invalid dest() folder argument. Please specify a non-empty string or a function."
+### Ошибки
 
-When `directory` is not a string or function, throws an error with the message, "Invalid dest() folder argument. Please specify a non-empty string or a function."
+Когда `directory` является пустой строкой, выдает ошибку с сообщением: "Invalid dest() folder argument. Please specify a non-empty string or a function."
 
-When `directory` is a function that returns an empty string or `undefined`, emits an error with the message, "Invalid output folder".
+Когда `directory` не является строкой или функцией, выдает ошибку с сообщением: "Invalid dest() folder argument. Please specify a non-empty string or a function."
 
-### Options
+Когда `directory` - это функция, которая возвращает пустую строку или `undefined`, выдает ошибку с сообщением: "Invalid output folder".
 
+### Опции
 
-**For options that accept a function, the passed function will be called with each Vinyl object and must return a value of another listed type.**
+**Для параметров, которые принимают функцию, переданная функция будет вызываться с каждым объектом Vinyl и должна возвращать значение другого перечисленного типа.**
 
-| name | type | default | note |
+| наименование | тип | по умолчанию | примечание |
 |:-------:|:------:|-----------|-------|
-| cwd | string<br />function | `process.cwd()` | The directory that will be combined with any relative path to form an absolute path. Is ignored for absolute paths. Use to avoid combining `directory` with `path.join()`. |
-| mode | number<br />function | `stat.mode` of the Vinyl object | The mode used when creating files. If not set and `stat.mode` is missing, the process' mode will be used instead. |
-| dirMode | number<br />function | | The mode used when creating directories. If not set, the process' mode will be used. |
-| overwrite | boolean<br />function | true | When true, overwrites existing files with the same path. |
-| append | boolean<br />function | false | If true, adds contents to the end of the file, instead of replacing existing contents. |
-| sourcemaps | boolean<br />string<br />function | false | If true, writes inline sourcemaps to the output file. Specifying a `string` path will write external [sourcemaps][sourcemaps-section] at the given path. |
-| relativeSymlinks | boolean<br />function | false | When false, any symbolic links created will be absolute.<br />**Note**: Ignored if a junction is being created, as they must be absolute. |
-| useJunctions | boolean<br />function | true | This option is only relevant on Windows and ignored elsewhere. When true, creates directory symbolic link as a junction. Detailed in [Symbolic links on Windows][symbolic-links-section] below. |
+| cwd | string<br />function | `process.cwd()` | Каталог, который будет объединен с любым относительным путем, чтобы сформировать абсолютный путь. Игнорируется для абсолютных путей. Используйте, чтобы избежать объединения `directory` с `path.join()`. |
+| mode | number<br />function | `stat.mode` объекта Vinyl | Режим, используемый при создании файлов. Если не установлен и параметр `stat.mode` отсутствует, вместо него будет использоваться режим процесса. |
+| dirMode | number<br />function | | Режим, используемый при создании каталогов. Если не установлен, будет использоваться режим процесса. |
+| overwrite | boolean<br />function | true | Если установлено значение `true`, существующие файлы перезаписываются с тем же путем. |
+| append | boolean<br />function | false | Если `true`, добавляет содержимое в конец файла вместо замены существующего содержимого. |
+| sourcemaps | boolean<br />string<br />function | false | Если `true`, записывает встроенные исходные карты в выходной файл. Указание строкового пути `string` приведет к записи внешних [sourcemaps][sourcemaps-section] по заданному пути. |
+| relativeSymlinks | boolean<br />function | false | Если установлено значение `false`, любые созданные символические ссылки будут абсолютными.<br />**Примечание**: Игнорируется, если создается соединение, поскольку они должны быть абсолютными. |
+| useJunctions | boolean<br />function | true | Этот параметр актуален только в Windows и в других местах игнорируется. Если задано значение `true`, создает символическую ссылку каталога в виде соединения. Подробно в [Символические ссылки в Windows][symbolic-links-section] ниже. |
 
-## Metadata updates
+## Обновления метаданных
 
-Whenever the `dest()` stream creates a file, the Vinyl object's `mode`, `mtime`, and `atime` are compared to the created file. If they differ, the created file will be updated to reflect the Vinyl object's metadata. If those properties are the same, or gulp doesn't have permissions to make changes, the attempt is skipped silently.
+Каждый раз, когда поток `dest()` создает файл, объекты Vinyl `mode`, `mtime` и `atime` сравниваются с созданным файлом. Если они отличаются, созданный файл будет обновлен, чтобы отразить метаданные объекта Vinyl. Если эти свойства совпадают или gulp не имеет разрешений на внесение изменений, попытка автоматически пропускается.
 
-This functionality is disabled on Windows or other operating systems that don't support Node's `process.getuid()` or `process.geteuid()` methods. This is due to Windows having unexpected results through usage of `fs.fchmod()` and `fs.futimes()`.
+Эта функция отключена в Windows или других операционных системах, которые не поддерживают методы Node `process.getuid()` или `process.geteuid()`. Это происходит из-за того, что Windows дает неожиданные результаты при использовании `fs.fchmod()` и `fs.futimes()`.
 
-**Note**: The `fs.futimes()` method internally converts `mtime` and `atime` timestamps to seconds. This division by 1000 may cause some loss of precision on 32-bit operating systems.
+**Примечание**: Метод `fs.futimes()` внутренне конвертирует временные метки `mtime` и `atime` в секунды. Это деление на 1000 может вызвать некоторую потерю точности в 32-битных операционных системах.
 
-## Sourcemaps
+## Исходные карты
 
-Sourcemap support is built directly into `src()` and `dest()`, but it is disabled by default. Enable it to produce inline or external sourcemaps.
+Поддержка Sourcemap встроена непосредственно в `src()` и `dest()`, но по умолчанию отключена. Включите его для создания встроенных или внешних исходных карт.
 
-Inline sourcemaps:
+Встроенные исходные карты:
+
 ```js
 const { src, dest } = require('gulp');
 const uglify = require('gulp-uglify');
@@ -91,7 +92,8 @@ src('input/**/*.js', { sourcemaps: true })
   .pipe(dest('output/', { sourcemaps: true }));
 ```
 
-External sourcemaps:
+Внешние исходные карты:
+
 ```js
 const { src, dest } = require('gulp');
 const uglify = require('gulp-uglify');
@@ -101,19 +103,19 @@ src('input/**/*.js', { sourcemaps: true })
   .pipe(dest('output/', { sourcemaps: '.' }));
 ```
 
-## Symbolic links on Windows
+## Символические ссылки в Windows
 
-When creating symbolic links on Windows, a `type` argument is passed to Node's `fs.symlink()` method which specifies the kind of target being linked. The link type is set to:
-* `'file'` when the target is a regular file
-* `'junction'` when the target is a directory
-* `'dir'` when the target is a directory and the user disables the `useJunctions` option
+При создании символьных ссылок в Windows, аргумент `type` передается методу Node `fs.symlink()`, который указывает тип связываемой цели. Тип ссылки установлен на:
 
+* `'file'`, когда целью является обычный файл
+* `'junction'`, когда целью является каталог
+* `'dir'`, когда целью является каталог и пользователь отключает параметр `useJunctions`
 
-If you try to create a dangling (pointing to a non-existent target) link, the link type can't be determined automatically. In these cases, behavior will vary depending on whether the dangling link is being created via `symlink()` or via `dest()`.
+Если вы попытаетесь создать висящую (указывающую на несуществующую цель) ссылку, тип ссылки не может быть определен автоматически. В этих случаях поведение будет варьироваться в зависимости от того, создается ли висячая ссылка через `symlink()` или через `dest()`.
 
-For dangling links created via `symlink()`, the incoming Vinyl object represents the target, so its stats will determine the desired link type. If `isDirectory()` returns false then a `'file'` link is created, otherwise a `'junction'` or a `'dir'` link is created depending on the value of the `useJunctions` option.
+Для висящих ссылок, созданных с помощью `symlink()`, входящий объект Vinyl представляет цель, поэтому его статистика будет определять желаемый тип ссылки. Если `isDirectory()` возвращает `false`, создается ссылка на `'file'`, в противном случае создается ссылка `'junction'` или `'dir'` в зависимости от значения параметра `useJunctions`.
 
-For dangling links created via `dest()`, the incoming Vinyl object represents the link - typically loaded from disk via `src(..., { resolveSymlinks: false })`. In this case, the link type can't be reasonably determined and defaults to using `'file'`. This may cause unexpected behavior if you are creating a dangling link to a directory. **Avoid this scenario.**
+Для висящих ссылок, созданных с помощью `dest()`, входящий объект Vinyl представляет ссылку - обычно загружается с диска через `src(..., { resolveSymlinks: false })`. В этом случае тип ссылки не может быть обоснованно определен и по умолчанию используется `'file'`. Это может вызвать непредвиденное поведение, если вы создаете висящую ссылку на каталог. **Избегайте этого сценария.**
 
 [sourcemaps-section]: #sourcemaps
 [symbolic-links-section]: #symbolic-links-on-windows

@@ -1,6 +1,6 @@
-## Table of Contents
+## Оглавление
 
-* [API Concepts](concepts.md)
+* [Концепции API](concepts.md)
 * [src()](src.md)
 * [dest()](dest.md)
 * [symlink()](symlink.md)

@@ -7,103 +7,105 @@ sidebar_label: series()
 
 # series()
 
-Combines task functions and/or composed operations into larger operations that will be executed one after another, in sequential order. There are no imposed limits on the nesting depth of composed operations using `series()` and `parallel()`.
+Объединяет функции задач и/или составные операции в более крупные операции, которые будут выполняться одна за другой в последовательном порядке. Нет никаких ограничений на глубину вложенности составных операций, использующих `series()` и `parallel()`.
 
-## Usage
+## Применение
 
 ```js
 const { series } = require('gulp');
 
 function javascript(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function css(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 exports.build = series(javascript, css);
 ```
 
-## Signature
+## Подпись
 
 ```js
 series(...tasks)
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| tasks<br />**(required)** | function<br />string | Any number of task functions can be passed as individual arguments. Strings can be used if you've registered tasks previously, but this is not recommended. |
+| tasks<br />**(required)** | function<br />string | Любое количество функций задачи может быть передано как отдельные аргументы. Строки можно использовать, если вы ранее регистрировали задачи, но это не рекомендуется. |
 
-### Returns
+### Возвращается
 
-A composed operation to be registered as a task or nested within other `series` and/or `parallel` compositions.
+Составная операция, которая должна быть зарегистрирована как задача или вложена в другие композиции `series` и/или `parallel`.
 
-When the composed operation is executed, all tasks will be run sequentially. If an error occurs in one task, no subsequent tasks will be run.
+При выполнении составленной операции все задачи будут выполняться последовательно. Если ошибка возникает в одной задаче, последующие задачи запускаться не будут.
 
-### Errors
+### Ошибки
 
-When no tasks are passed, throws an error with the message, "One or more tasks should be combined using series or parallel".
+Если задачи не переданы, выдает ошибку с сообщением: "One or more tasks should be combined using series or parallel".
 
-When invalid tasks or unregistered tasks are passed, throws an error with the message, "Task never defined".
+Когда передаются недопустимые задачи или незарегистрированные задачи, выдает ошибку с сообщением: "Task never defined".
 
-## Forward references
+## Прямые ссылки
 
-A forward reference is when you compose tasks, using string references, that haven't been registered yet. This was a common practice in older versions, but this feature was removed to achieve faster task runtime and promote the use of named functions.
+Прямая ссылка - это когда вы составляете задачи, используя строковые ссылки, которые еще не были зарегистрированы. Это было обычной практикой в более старых версиях, но эта функция была удалена, чтобы ускорить выполнение задач и способствовать использованию именованных функций.
 
-In newer versions, you'll get an error, with the message "Task never defined", if you try to use forward references. You may experience this when trying to use `exports` for your task registration *and* composing tasks by string. In this situation, use named functions instead of string references.
+В более новых версиях вы получите сообщение об ошибке «Задача не определена», если попытаетесь использовать прямые ссылки. Вы можете столкнуться с этим при попытке использовать `exports` для регистрации задачи *и* составления задач по строкам. В этом случае используйте именованные функции вместо строковых ссылок.
 
-During migration, you may need to use the [forward reference registry][undertaker-forward-reference-external]. This will add an extra closure to every task reference and dramatically slow down your build. **Don't rely on this fix for very long**.
+Во время миграции вам может потребоваться использовать [реестр прямых ссылок][undertaker-forward-reference-external]. Это добавит дополнительное закрытие к каждой ссылке на задачу и значительно замедлит вашу сборку. **Не полагайтесь на это исправление надолго**.
 
-## Avoid duplicating tasks
+## Избегайте дублирования задач
 
-When a composed operation is run, each task will be executed every time it was supplied.
+Когда выполняется составная операция, каждая задача будет выполняться каждый раз, когда она была предоставлена.
 
-A `clean` task referenced in two different compositions would be run twice and lead to undesired results. Instead, refactor the `clean` task to be specified in the final composition.
+Задача `clean`, на которую ссылаются две разные композиции, будет выполняться дважды и приведет к нежелательным результатам. Вместо этого выполните рефакторинг задачи `clean`, чтобы она была указана в окончательной композиции.
 
-If you have code like this:
+Если у вас есть такой код:
+
 ```js
-// This is INCORRECT
+// Это НЕПРАВИЛЬНО
 const { series, parallel } = require('gulp');
 
 const clean = function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 };
 
 const css = series(clean, function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 });
 
 const javascript = series(clean, function(cb) {
-  // body omitted
+  // тело опущено
   cb();
 });
 
 exports.build = parallel(css, javascript);
 ```
 
-Migrate to this:
+Переходите на это:
+
 ```js
 const { series, parallel } = require('gulp');
 
 function clean(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function css(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function javascript(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 

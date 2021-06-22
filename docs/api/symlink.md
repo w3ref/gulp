@@ -7,9 +7,9 @@ sidebar_label: symlink()
 
 # symlink()
 
-Creates a stream for linking [Vinyl][vinyl-concepts] objects to the file system.
+Создает поток для связывания объектов [Vinyl][vinyl-concepts] с файловой системой.
 
-## Usage
+## Применение
 
 ```js
 const { src, symlink } = require('gulp');
@@ -22,66 +22,66 @@ function link() {
 exports.link = link;
 ```
 
-## Signature
+## Подпись
 
 ```js
 symlink(directory, [options])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:-----:|--------|
-| directory<br />**(required)** | string<br />function | The path of the output directory where symbolic links will be created. If a function is used, the function will be called with each Vinyl object and must return a string directory path. |
-| options | object | Detailed in [Options][options-section] below. |
+| directory<br />**(обязательный)** | string<br />function | Путь к выходному каталогу, в котором будут созданы символические ссылки. Если функция используется, она будет вызываться с каждым объектом Vinyl и должна возвращать строковый путь к каталогу. |
+| options | object | Подробнее в [Опциях][options-section] ниже. |
 
-### Returns
+### Возвращается
 
-A stream that can be used in the middle or at the end of a pipeline to create symbolic links on the file system.
-Whenever a Vinyl object is passed through the stream, it creates a symbolic link to the original file on the file system at the given directory.
+Поток, который можно использовать в середине или в конце конвейера для создания символических ссылок в файловой системе.
+Всякий раз, когда объект Vinyl проходит через поток, он создает символическую ссылку на исходный файл в файловой системе в данном каталоге.
 
-Whenever a symbolic link is created on the file system, the Vinyl object will be modified.
-* The `cwd`, `base`, and `path` properties will be updated to match the created symbolic link.
-* The `stat` property will be updated to match the symbolic link on the file system.
-* The `contents` property will be set to `null`.
-* The `symlink` property will be added or replaced with original path.
+Всякий раз, когда в файловой системе создается символическая ссылка, объект Vinyl будет изменен.
 
-**Note:** On Windows, directory links are created using junctions by default. The `useJunctions` option disables this behavior.
+* Свойства `cwd`, `base` и `path` будут обновлены, чтобы соответствовать созданной символической ссылке.
+* Свойство `stat` будет обновлено, чтобы соответствовать символической ссылке в файловой системе.
+* Свойство `contents` будет установлено в `null`.
+* Свойство `symlink` будет добавлено или заменено исходным путем..
 
+**Примечание:** В Windows ссылки каталогов по умолчанию создаются с использованием переходов. Опция `useJunctions` отключает это поведение.
 
-### Errors
+### Ошибки
 
-When `directory` is an empty string, throws an error with the message, "Invalid symlink() folder argument. Please specify a non-empty string or a function."
+Когда `directory` является пустой строкой, выдает ошибку с сообщением: "Invalid symlink() folder argument. Please specify a non-empty string or a function."
 
-When `directory` is not a string or function, throws an error with the message, "Invalid symlink() folder argument. Please specify a non-empty string or a function."
+Когда `directory` не является строкой или функцией, выдает ошибку с сообщением: "Invalid symlink() folder argument. Please specify a non-empty string or a function."
 
-When `directory` is a function that returns an empty string or `undefined`, emits an error with the message, "Invalid output folder".
+Когда `directory` - это функция, которая возвращает пустую строку или `undefined`, выдает ошибку с сообщением: "Invalid output folder".
 
-### Options
+### Опции
 
-**For options that accept a function, the passed function will be called with each Vinyl object and must return a value of another listed type.**
+**Для параметров, которые принимают функцию, переданная функция будет вызываться с каждым объектом Vinyl и должна возвращать значение другого перечисленного типа.**
 
-| name | type | default | note |
+| наименование | тип | по умолчанию | примечание |
 |:-------:|:------:|-----------|-------|
-| cwd | string<br />function | `process.cwd()` |The directory that will be combined with any relative path to form an absolute path. Is ignored for absolute paths. Use to avoid combining `directory` with `path.join()`. |
-| dirMode | number<br />function | | The mode used when creating directories. If not set, the process' mode will be used. |
-| overwrite | boolean<br />function | true | When true, overwrites existing files with the same path. |
-| relativeSymlinks | boolean<br />function | false | When false, any symbolic links created will be absolute.<br />**Note**: Ignored if a junction is being created, as they must be absolute. |
-| useJunctions | boolean<br />function | true | This option is only relevant on Windows and ignored elsewhere. When true, creates directory symbolic link as a junction. Detailed in [Symbolic links on Windows][symbolic-links-section] below. |
+| cwd | string<br />function | `process.cwd()` |Каталог, который будет объединен с любым относительным путем для формирования абсолютного пути. Игнорируется для абсолютных путей. Используйте, чтобы избежать объединения `directory` с `path.join()`. |
+| dirMode | number<br />function | | Режим, используемый при создании каталогов. Если не установлен, будет использоваться режим процесса. |
+| overwrite | boolean<br />function | true | Если установлено значение `true`, существующие файлы перезаписываются с тем же путем. |
+| relativeSymlinks | boolean<br />function | false | Если установлено значение `false`, любые созданные символические ссылки будут абсолютными.<br />**Примечание**: Игнорируется, если создается соединение, поскольку они должны быть абсолютными. |
+| useJunctions | boolean<br />function | true | Этот параметр актуален только в Windows и в других местах игнорируется. Если установлено значение `true`, создает символическую ссылку на каталог в виде соединения. Подробно в [Символические ссылки в Windows][symbolic-links-section] ниже. |
 
-## Symbolic links on Windows
+## Символические ссылки в Windows
 
-When creating symbolic links on Windows, a `type` argument is passed to Node's `fs.symlink()` method which specifies the type of target being linked. The link type is set to:
-* `'file'` when the target is a regular file
-* `'junction'` when the target is a directory
-* `'dir'` when the target is a directory and the user disables the `useJunctions` option
+При создании символических ссылок в Windows, аргумент `type` передается методу Node `fs.symlink()`, который определяет тип связываемого целевого объекта. Тип ссылки установлен на:
 
+* `'file'`, если целью является обычный файл
+* `'junction'`, если целью является каталог
+* `'dir'`, если целью является каталог, и пользователь отключает опцию `useJunctions`
 
-If you try to create a dangling (pointing to a non-existent target) link, the link type can't be determined automatically. In these cases, behavior will vary depending on whether the dangling link is being created via `symlink()` or via `dest()`.
+Если вы попытаетесь создать висящую (указывающую на несуществующую цель) ссылку, тип ссылки не может быть определен автоматически. В этих случаях поведение будет варьироваться в зависимости от того, создается ли висячая ссылка через `symlink()` или через `dest()`.
 
-For dangling links created via `symlink()`, the incoming Vinyl object represents the target, so its stats will determine the desired link type. If `isDirectory()` returns false then a `'file'` link is created, otherwise a `'junction'` or `'dir'` link is created depending on the value of the `useJunctions` option.
+Для висящих ссылок, созданных с помощью `symlink()`, входящий объект Vinyl представляет цель, поэтому его статистика будет определять желаемый тип ссылки. Если `isDirectory()` возвращает false, создается ссылка на файл `'file'`, в противном случае создается ссылка `'junction'` или `'dir'` в зависимости от значения параметра `useJunctions`.
 
-For dangling links created via `dest()`, the incoming Vinyl object represents the link - typically loaded from disk via `src(..., { resolveSymlinks: false })`. In this case, the link type can't be reasonably determined and defaults to using `'file'`. This may cause unexpected behavior when creating a dangling link to a directory. **Avoid this scenario.**
+Для висящих ссылок, созданных с помощью `dest()`, входящий объект Vinyl представляет ссылку - обычно загружается с диска через `src(..., { resolveSymlinks: false })`. В этом случае тип ссылки не может быть обоснованно определен и по умолчанию используется `'file'`. Это может вызвать непредвиденное поведение при создании висячей ссылки на каталог. **Избегайте этого сценария.**
 
 [options-section]: #options
 [symbolic-links-section]: #symbolic-links-on-windows

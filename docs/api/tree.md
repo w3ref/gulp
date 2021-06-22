@@ -7,29 +7,30 @@ sidebar_label: tree()
 
 # tree()
 
-Fetches the current task dependency tree - in the rare case that it is needed.
+Получает дерево зависимостей текущей задачи - в редких случаях, когда это необходимо.
 
-Generally, `tree()` won't be used by gulp consumers, but it is exposed so the CLI can show the dependency graph of the tasks defined in a gulpfile.
+Как правило, `tree()` не будет использоваться потребителями gulp, но он доступен, поэтому CLI может отображать граф зависимостей задач, определенных в gulpfile.
 
-## Usage
+## Применение
 
-Example gulpfile:
+Пример gulpfile:
+
 ```js
 
 const { series, parallel } = require('gulp');
 
 function one(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function two(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
 function three(cb) {
-  // body omitted
+  // тело опущено
   cb();
 }
 
@@ -37,7 +38,7 @@ const four = series(one, two);
 
 const five = series(four,
   parallel(three, function(cb) {
-    // Body omitted
+    // тело опущено
     cb();
   })
 );
@@ -45,7 +46,8 @@ const five = series(four,
 module.exports = { one, two, three, four, five };
 ```
 
-Output for `tree()`:
+Вывод для `tree()`:
+
 ```js
 {
   label: 'Tasks',
@@ -53,8 +55,8 @@ Output for `tree()`:
 }
 ```
 
+Вывод для `tree({ deep: true })`:
 
-Output for `tree({ deep: true })`:
 ```js
 {
   label: "Tasks",
@@ -148,31 +150,31 @@ Output for `tree({ deep: true })`:
 }
 ```
 
-## Signature
+## Подпись
 
 ```js
 tree([options])
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|------:|--------|
-| options | object | Detailed in [Options][options-section] below. |
+| options | object | Подробнее в [Опциях][options-section] ниже. |
 
-### Returns
+### Возвращается
 
-An object detailing the tree of registered tasks - containing nested objects with `'label'` and `'nodes'` properties (which is [archy][archy-external] compatible).
+Объект, детализирующий дерево зарегистрированных задач - содержащий вложенные объекты со свойствами `'label'` и `'nodes'` (совместимый с [archy][archy-external] compatible).
 
-Each object may have a `type` property that can be used to determine if the node is a `task` or `function`.
+Каждый объект может иметь свойство `type` , которое может использоваться для определения того, является ли node `task` или `function`.
 
-Each object may have a `branch` property that, when `true`, indicates the node was created using `series()` or `parallel()`.
+Каждый объект может иметь свойство `branch`, которое, когда `true`, , указывает, что node была создана с помощью `series()` или `parallel()`.
 
-### Options
+### Опции
 
-| name | type | default | note |
+| наименование | тип | по умолчанию | примечание |
 |:-------:|:-------:|------------|--------|
-| deep | boolean | false | If true, the entire tree will be returned. When false, only top level tasks will be returned. |
+| deep | boolean | false | Если `true`, будет возвращено все дерево. Если установлено значение `false`, будут возвращены только задачи верхнего уровня. |
 
 [options-section]: #options
 [archy-external]: https://www.npmjs.com/package/archy

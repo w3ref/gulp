@@ -11,7 +11,7 @@ Determines if an object is a Vinyl instance. Use this method instead of `instanc
 
 **Note**: This method uses an internal property that some older versions of Vinyl didn't expose resulting in a false negative if using an outdated version.
 
-## Usage
+## Применение
 
 ```js
 const Vinyl = require('vinyl');
@@ -23,19 +23,18 @@ Vinyl.isVinyl(file) === true;
 Vinyl.isVinyl(notAFile) === false;
 ```
 
-## Signature
+## Подпись
 
 ```js
 Vinyl.isVinyl(file);
 ```
 
-### Parameters
+### Параметры
 
-| parameter | type | note |
+| параметр | тип | примечание |
 |:--------------:|:------:|-------|
 | file | object | The object to check. |
 
-### Returns
+### Возвращается
 
 True if the `file` object is a Vinyl instance.
-
