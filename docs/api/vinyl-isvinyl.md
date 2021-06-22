@@ -7,9 +7,9 @@ sidebar_label: Vinyl.isVinyl()
 
 # Vinyl.isVinyl()
 
-Determines if an object is a Vinyl instance. Use this method instead of `instanceof`.
+Определяет, является ли объект экземпляром Vinyl. Используйте этот метод вместо `instanceof`.
 
-**Note**: This method uses an internal property that some older versions of Vinyl didn't expose resulting in a false negative if using an outdated version.
+**Примечание**: В этом методе используется внутреннее свойство, которое не раскрывается в некоторых более старых версиях Vinyl, что приводит к ложноотрицательному результату при использовании устаревшей версии.
 
 ## Применение
 
@@ -33,8 +33,8 @@ Vinyl.isVinyl(file);
 
 | параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| file | object | The object to check. |
+| file | object | Объект проверки. |
 
 ### Возвращается
 
-True if the `file` object is a Vinyl instance.
+Истинно, если объект `file` является экземпляром Vinyl.

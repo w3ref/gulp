@@ -7,11 +7,11 @@ sidebar_label: Vinyl
 
 # Vinyl
 
-A virtual file format. When a file is read by `src()`, a Vinyl object is generated to represent the file - including the path, contents, and other metadata.
+Формат виртуального файла. Когда файл читается с помощью `src()`, создается объект Vinyl для представления файла, включая путь, содержимое и другие метаданные.
 
-Vinyl objects can have transformations applied using [plugins][using-plugins-docs]. They may also be persisted to the file system using `dest()`.
+К объектам винила можно применить преобразования с помощью [плагинов][using-plugins-docs]. Они также могут быть сохранены в файловой системе с помощью `dest()`.
 
-When creating your own Vinyl objects - instead of generating with `src()` - use the external `vinyl` module, as shown in Usage below.
+При создании ваших собственных объектов Vinyl - вместо создания с помощью `src()` - используйте внешний модуль `vinyl`, как показано в разделе Использование ниже.
 
 ## Применение
 
@@ -53,28 +53,28 @@ new Vinyl([options])
 
 | параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| options | object | Подробнее в  [Опциях][options-section] ниже. |
+| options | object | Подробнее в [Опциях][options-section] ниже. |
 
 ### Возвращается
 
-An instance of the Vinyl class representing a single virtual file, detailed in [Vinyl instance][vinyl-instance-section] below.
+Экземпляр класса Vinyl, представляющий один виртуальный файл, подробно описанный в [экземпляре Vinyl][vinyl-instance-section] ниже.
 
 ### Ошибки
 
-When any passed options don't conform to the [instance property definitions][instance-properties-section] (like if `path` is set to a number) throws as defined in the table.
+Когда какие-либо переданные параметры не соответствуют [определениям свойств экземпляра][instance-properties-section] (например, если для параметра `path` задано число) выбрасывается, как определено в таблице.
 
 ### Опции
 
 | наименование | тип | по умолчанию | примечание |
 |:-------:|:------:|-----------|--------|
-| cwd | string | `process.cwd()` | The directory from which relative paths will be derived. Will be [normalized][normalization-and-concatenation-section] and have trailing separators removed. |
-| base | string | | Used to calculate the `relative` instance property. Falls back to the value of `cwd` if not set. Typically set to the [glob base][glob-base-concepts]. Will be [normalized][normalization-and-concatenation-section] and have trailing separators removed.|
-| path | string | | The full, absolute file path. Will be [normalized][normalization-and-concatenation-section] and have trailing separators removed. |
-| history | array | `[ ]` | An array of paths to pre-populate the `history` of a Vinyl instance. Usually comes from deriving a new Vinyl object from a previous Vinyl object. If `path` and `history` are both passed, `path` is appended to `history`. Each item will be [normalized][normalization-and-concatenation-section] and have trailing separators removed. |
-| stat | object | | An instance of `fs.Stats`, usually the result of calling `fs.stat()` on a file. Used to determine if a Vinyl object represents a directory or symbolic link. |
-| contents | ReadableStream<br />Buffer<br />`null` | `null` | The contents of the file. If `contents` is a ReadableStream, it is wrapped in a [cloneable-readable][cloneable-readable-external] stream. |
+| cwd | string | `process.cwd()` | Каталог, из которого будут производиться относительные пути. Будет [нормализовано][normalization-and-concatenation-section] и конечные разделители будут удалены. |
+| base | string | | Используется для вычисления свойства экземпляра `relative`. Возвращается к значению `cwd` , если не установлено. Обычно устанавливается равным [glob base][glob-base-concepts]. Будет [нормализовано][normalization-and-concatenation-section] и конечные разделители будут удалены. |
+| path | string | | The full, absolute file path. Будет [нормализовано][normalization-and-concatenation-section] и конечные разделители будут удалены. |
+| history | array | `[ ]` | Массив путей для предварительного заполнения `history` экземпляра Vinyl. Обычно происходит от создания нового объекта Vinyl из предыдущего объекта Vinyl. Если переданы и `path`, и `history`, то `path` добавляется к `history`. Каждый элемент будет [нормализован][normalization-and-concatenation-section], а завершающие разделители будут удалены. |
+| stat | object | | Экземпляр `fs.Stats`, обычно результат вызова `fs.stat()` для файла. Используется для определения того, представляет ли объект Vinyl каталог или символическую ссылку. |
+| contents | ReadableStream<br />Buffer<br />`null` | `null` | Содержимое файла. Если `contents` является `ReadableStream`, он упаковывается в поток [cloneable-readable][cloneable-readable-external]. |
 
-Any other properties on `options` will be directly assigned to the Vinyl instance.
+Любые другие свойства в `options` будут напрямую назначены экземпляру Vinyl.
 
 ```js
 const Vinyl = require('vinyl');
@@ -83,44 +83,44 @@ const file = new Vinyl({ foo: 'bar' });
 file.foo === 'bar';
 ```
 
-## Vinyl instance
+## Экземпляр Vinyl
 
-Each instance of a Vinyl object will have properties and methods to access and/or modify information about the virtual file.
+Каждый экземпляр объекта Vinyl будет иметь свойства и методы для доступа и/или изменения информации о виртуальном файле.
 
-### Instance properties
+### Свойства экземпляра
 
-All internally managed paths - any instance property except `contents` and `stat` - are normalized and have trailing separators removed. See [Normalization and concatenation][normalization-and-concatenation-section] for more information.
+Все пути с внутренним управлением - любое свойство экземпляра, кроме `contents` и `stat` - нормализованы, а завершающие разделители удалены. Смотрите [Нормализация и конкатенация][normalization-and-concatenation-section] для получения дополнительной информации.
 
-| property | type | description | throws |
+| свойство | тип | описание | исключения |
 |:-----------:|:------:|----------------|----------|
-| contents | ReadableStream<br />Buffer<br />`null` | Gets and sets the contents of the virtual file. If set to a ReadableStream, it is wrapped in a [cloneable-readable][cloneable-readable-external] stream. | If set to any value other than a ReadableStream, a Buffer, or `null`. |
-| stat | object | Gets and sets an instance of [`fs.Stats`][fs-stats-concepts]. Used when determining if a Vinyl object represents a directory or symbolic link. | |
-| cwd | string | Gets and sets the current working directory. Used for deriving relative paths. | If set to an empty string or any non-string value. |
-| base | string | Gets and sets the base directory. Used to calculate the `relative` instance property. On a Vinyl object generated by `src()` will be set to the [glob base][glob-base-concepts]. If set to `null` or `undefined`, falls back to the value of the `cwd` instance property. | If set to an empty string or any non-string value (except `null` or `undefined`). |
-| path | string | Gets and sets the full, absolute file path. Setting to a value different from the current `path` appends the new path to the `history` instance property. | If set to any non-string value. |
-| history | array | Array of all `path` values the Vinyl object has been assigned. The first element is the original path and the last element is the current path. This property and its elements should be treated as read-only and only altered indirectly by setting the `path` instance property. | |
-| relative | string | Gets the relative path segment between the `base` and the `path` instance properties. | If set to any value. If accessed when `path` is not available. |
-| dirname | string | Gets and sets the directory of the `path` instance property. | If accessed when `path` is not available. |
-| stem | string | Gets and sets the stem (filename without extension) of the `path` instance property. | If accessed when `path` is not available. |
-| extname | string | Gets and sets the extension of the `path` instance property. | If accessed when `path` is not available. |
-| basename | string | Gets and sets the filename (`stem + extname`) of the `path` instance property. | If accessed when `path` is not available. |
-| symlink | string | Gets and sets the reference path of a symbolic link. | If set to any non-string value. |
+| contents | ReadableStream<br />Buffer<br />`null` | Получает и задает содержимое виртуального файла. Если установлено значение `ReadableStream`, он оборачивается в поток [cloneable-readable][cloneable-readable-external]. | Если установлено любое значение, кроме `ReadableStream`, `Buffer` или `null`. |
+| stat | object | Получает и задает экземпляр [`fs.Stats`][fs-stats-concepts]. Используется при определении того, представляет ли объект Vinyl каталог или символическую ссылку. | |
+| cwd | string | Получает и задает текущий рабочий каталог. Используется для получения относительных путей. | Если установлена пустая строка или любое нестроковое значение. |
+| base | string | Получает и задает базовый каталог. Используется для вычисления свойства экземпляра `relative`. На объекте Vinyl, созданном с помощью `src()` будет установлено значение [glob base][glob-base-concepts]. Если установлено значение `null` или `undefined`, возвращается к значению свойства экземпляра `cwd`. | Если установлена пустая строка или любое нестроковое значение (кроме `null` или `undefined`). |
+| path | string | Получает и задает полный абсолютный путь к файлу. Установка значения, отличного от текущего `path`, добавляет новый путь к свойству экземпляра `history`. | Если установлено любое нестроковое значение. |
+| history | array | Массив всех значений `path`, которые был назначен объекту Vinyl. Первый элемент - это исходный путь, а последний элемент - это текущий путь. Это свойство и его элементы должны рассматриваться как доступные только для чтения и изменяться только косвенно путем установки свойства экземпляра `path`. | |
+| relative | string | Получает относительный сегмент пути между свойствами экземпляра `base` и `path`. | Если установлено любое значение. При доступе, когда `path` недоступен. |
+| dirname | string | Получает и задает каталог свойства экземпляра `path`. | При доступе, когда `path` недоступен. |
+| stem | string | Получает и задает основу (имя файла без расширения) свойства экземпляра `path`. | При доступе, когда `path` недоступен. |
+| extname | string | Получает и задает расширение свойства экземпляра `path`. | При доступе, когда `path` недоступен. |
+| basename | string | Получает и задает имя файла (`stem + extname`) свойства экземпляра `path`. | При доступе, когда `path` недоступен. |
+| symlink | string | Получает и задает путь ссылки символьной ссылки. | Если установлено любое нестроковое значение. |
 
-### Instance methods
+### Методы экземпляра
 
-| method | return type | returns |
+| метод | тип, возвращаемого значения | возвращается |
 |:----------:|:--------------:|--------|
-| `isBuffer()` | boolean | If the `contents` instance property is a Buffer, returns true. |
-| `isStream()` | boolean | If the `contents` instance property is a Stream, returns true. |
-| `isNull()` | boolean | If the `contents` instance property is `null`, returns true. |
-| `isDirectory()` | boolean | If the instance represents a directory, returns true. An instance is considered a directory when `isNull()` returns true, the `stat` instance property is an object, and `stat.isDirectory()` returns true. This assumes a Vinyl object was constructed with a valid (or properly mocked) `fs.Stats` object. |
-| `isSymbolic()` | boolean | If the instance represents a symbolic link, returns true. An instance is considered symbolic when `isNull()` returns true, the `stat` instance property is an object, and `stat.isSymbolicLink()` returns true. This assumes a Vinyl object was constructed with a valid (or properly mocked) `fs.Stats` object. |
-| `clone([options])` | object | A new Vinyl object with all properties cloned. By default custom properties are deep cloned. If the `deep` option is false, custom attributes will be shallow cloned. If the `contents` option is false and the `contents` instance property is a Buffer, the Buffer will be reused instead of cloned. |
-| `inspect()` | string | Returns a formatted interpretation of the Vinyl object. Automatically called by Node's console.log. |
+| `isBuffer()` | boolean | Если свойство экземпляра `contents` является Buffer, возвращает `true`. |
+| `isStream()` | boolean | Если свойство экземпляра `contents` является Stream, возвращает `true`. |
+| `isNull()` | boolean | Если свойство экземпляра `contents` имеет значение `null`, возвращает `true`. |
+| `isDirectory()` | boolean | Если экземпляр представляет каталог, возвращает `true`. Экземпляр считается каталогом, если `isNull()` возвращает `true`, свойство экземпляра `stat` является объектом, а `stat.isDirectory()` возвращает `true`. Предполагается, что объект Vinyl был создан с использованием действительного (или правильно смоделированного) объекта `fs.Stats`. |
+| `isSymbolic()` | boolean | Если экземпляр представляет собой символическую ссылку, возвращает `true`. Экземпляр считается символическим, если `isNull()` возвращает `true`, свойство экземпляра `stat` является объектом, а `stat.isSymbolicLink()` возвращает true. Предполагается, что объект Vinyl был создан с использованием действительного (или правильно смоделированного) объекта `fs.Stats`. |
+| `clone([options])` | object | Новый объект Vinyl со всеми клонированными свойствами. По умолчанию настраиваемые свойства глубоко клонированы. Если опция `deep` равна `false`, настраиваемые атрибуты будут неглубоко клонированы. Если опция `contents` имеет значение `false`а свойство экземпляра `contents` является Buffer, Buffer будет повторно использован вместо клонированного. |
+| `inspect()` | string | Возвращает форматированную интерпретацию объекта Vinyl. Автоматически вызывается Node console.log. |
 
-## Normalization and concatenation
+## Нормализация и конкатенация
 
-All path properties are normalized by their setters. Concatenate paths with `/`, instead of using `path.join()`, and normalization will occur properly on all platforms. Never concatenate with `\` - it  is a valid filename character on POSIX system.
+Все свойства пути нормализованы их установщиками. Объедините пути с помощью `/` вместо использования `path.join()`, и нормализация будет происходить правильно на всех платформах. Никогда не объединяйте с `\` - это допустимый символ имени файла в системе POSIX.
 
 ```js
 const file = new File();

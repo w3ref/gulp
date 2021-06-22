@@ -7,9 +7,9 @@ sidebar_label: Vinyl.isCustomProp()
 
 # Vinyl.isCustomProp()
 
-Determines if a property is internally managed by Vinyl. Used by Vinyl when setting values inside the constructor or when copying properties in the `clone()` instance method.
+Определяет, находится ли свойство под внутренним управлением Vinyl. Используется Vinyl при установке значений внутри конструктора или при копировании свойств в методе экземпляра `clone()`.
 
-This method is useful when extending the Vinyl class. Detailed in [Extending Vinyl][extending-vinyl-section] below.
+Этот метод полезен при расширении класса Vinyl. Подробно в [Расширение винила][extending-vinyl-section] ниже.
 
 ## Применение
 
@@ -30,15 +30,15 @@ Vinyl.isCustomProp(property)
 
 | параметр | тип | примечание |
 |:--------------:|:------:|-------|
-| property | string | The property name to check. |
+| property | string | Имя свойства для проверки. |
 
 ### Возвращается
 
-True if the property is not internally managed.
+Истинно, если свойство не управляется изнутри.
 
-## Extending Vinyl
+## Расширение Vinyl
 
-When custom properties are managed internally, the static `isCustomProp` method must be extended and return false when one of the custom properties is queried.
+При внутреннем управлении настраиваемыми свойствами статический метод `isCustomProp` должен быть расширен и возвращать `false` при запросе одного из настраиваемых свойств.
 
 ```js
 const Vinyl = require('vinyl');
@@ -61,8 +61,8 @@ class SuperFile extends Vinyl {
 }
 ```
 
-In the example above, `foo` and `_foo` will not be assigned to the new object when cloning or passed in `options` to `new SuperFile(options)`.
+В приведенном выше примере `foo` и `_foo` не будут присвоены новому объекту при клонировании или переданы в `options` в `new SuperFile(options)`.
 
-If your custom properties or logic require special handling during cloning, override the `clone` method while extending Vinyl.
+Если ваши настраиваемые свойства или логика требуют особой обработки во время клонирования, переопределите метод `clone` при расширении Vinyl.
 
 [extending-vinyl-section]: #extending-vinyl
