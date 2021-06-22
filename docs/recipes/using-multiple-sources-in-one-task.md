@@ -1,4 +1,4 @@
-# Using multiple sources in one task
+# Использование нескольких источников в одной задаче
 
 ```js
 // npm install --save-dev gulp merge-stream
@@ -17,7 +17,7 @@ gulp.task('test', function() {
 });
 ```
 
-`gulp.src` will emit files in the order they were added:
+`gulp.src` будет генерировать файлы в том порядке, в котором они были добавлены:
 
 ```js
 // npm install gulp gulp-concat

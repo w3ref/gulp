@@ -1,10 +1,10 @@
-# Sharing streams with stream factories
+# Совместное использование потоков с фабриками потоков
 
-If you use the same plugins in multiple tasks you might find yourself getting that itch to DRY things up. This method will allow you to create factories to split out your commonly used stream chains.
+Если вы используете одни и те же плагины в нескольких задачах, вы можете обнаружить, что у вас появился зуд к DRY вещам. Этот метод позволит вам создать фабрики для разделения часто используемых цепочек потоков.
 
-We'll use [lazypipe](https://github.com/OverZealous/lazypipe) to get the job done.
+Мы будем использовать [lazypipe](https://github.com/OverZealous/lazypipe)чтобы выполнить эту работу.
 
-This is our sample file:
+Это наш образец файла:
 
 ```js
 var gulp = require('gulp');
@@ -31,7 +31,7 @@ gulp.task('coffee', function() {
 });
 ```
 
-and our file after using lazypipe looks like this:
+а наш файл после использования lazypipe выглядит так:
 
 ```js
 var gulp = require('gulp');
@@ -41,7 +41,7 @@ var jshint = require('gulp-jshint');
 var stylish = require('jshint-stylish');
 var lazypipe = require('lazypipe');
 
-// give lazypipe
+// отдать lazypipe
 var jsTransform = lazypipe()
   .pipe(jshint)
   .pipe(jshint.reporter, stylish)
@@ -61,4 +61,4 @@ gulp.task('coffee', function() {
 });
 ```
 
-You can see we split out our JavaScript pipeline (JSHint + Uglify) that was being reused in multiple tasks into a factory. These factories can be reused in as many tasks as you want. You can also nest factories and you can chain factories together for great effect. Splitting out each shared pipeline also gives you one central location to modify if you decide to change up your workflow.
+Вы можете видеть, что мы разделили наш конвейер JavaScript (JSHint + Uglify), который повторно использовался в нескольких задачах, в фабрику. Эти фабрики можно повторно использовать в любом количестве задач. Вы также можете объединять фабрики и объединять фабрики в цепочки для большего эффекта. Разделение каждого общего конвейера также дает вам одно центральное место для изменения, если вы решите изменить свой рабочий процесс.

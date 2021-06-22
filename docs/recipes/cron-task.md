@@ -1,25 +1,23 @@
-# Run gulp task via cron job
+# Запуск задачи gulp через задание cron
 
-While logged in via a user that has privileges to run `gulp`, run the following:
+При входе в систему через пользователя, имеющего права на запуск `gulp`, выполните следующее:
 
     crontab -e
 
-to edit your current "[crontab](https://en.wikipedia.org/wiki/Cron)" file.
+для редактирования текущего файла "[crontab](https://en.wikipedia.org/wiki/Cron)".
 
-Typically, within a cron job, you want to run any binary using absolute paths,
-so an initial approach to running `gulp build` every minute might look like:
+Обычно в задании cron вы хотите запускать любой двоичный файл, используя абсолютные пути, поэтому начальный подход к запуску `gulp build` каждую минуту может выглядеть так:
 
     * * * * * cd /your/dir/to/run/in && /usr/local/bin/gulp build
 
-However, you might see in the cron logs that you get this error:
+Однако в журналах cron вы можете увидеть эту ошибку:
 
 > `/usr/bin/env: node: No such file or directory`
 
-To fix this, we need to add a [symbolic link](https://en.wikipedia.org/wiki/Ln_\(Unix\))
-within `/usr/bin` to point to the actual path of our node binary.
+Чтобы исправить это, нам нужно добавить [символическую ссылку](https://en.wikipedia.org/wiki/Ln_\(Unix\)) в `/usr/bin`, чтобы указать фактический путь к бинарному файлу нашего узла.
 
-Be sure you are logged in as a **sudo** user, and paste in the following command to your terminal:
+Убедитесь, что вы вошли в систему как пользователь **sudo**, и вставьте следующую команду в свой терминал:
 
     sudo ln -s $(which node) /usr/bin/node
 
-Once this link is established, your cron task should run successfully.
+Как только эта ссылка будет установлена, ваша задача cron должна успешно запуститься.

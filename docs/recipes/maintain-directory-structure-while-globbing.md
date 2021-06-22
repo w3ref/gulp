@@ -1,13 +1,12 @@
-# Maintain Directory Structure while Globbing
+# Сохранение структуры каталогов во время Глобинга
 
-If you are planning to read a few files/folders from a directory and maintain their relative path, you need to pass `{base: '.'}` as the second argument to `gulp.src()`.
+Если вы планируете читать несколько файлов / папок из каталога и сохранять их относительный путь, вам необходимо передать `{base: '.'}` в качестве второго аргумента функции `gulp.src()`.
 
+Например, если у вас есть такая структура каталогов, как
 
-For example, if you have a directory structure like
+![Настройка для разработчиков](https://cloud.githubusercontent.com/assets/2562992/3178498/bedf75b4-ec1a-11e3-8a71-a150ad94b450.png)
 
-![Dev setup](https://cloud.githubusercontent.com/assets/2562992/3178498/bedf75b4-ec1a-11e3-8a71-a150ad94b450.png)
-
-and want to read only a few files say
+и хотите прочитать только несколько файлов, скажем
 
 ```js
 [ 'index.html',
@@ -19,11 +18,11 @@ and want to read only a few files say
  ]
 ```
 
-In this case, Gulp will read all the sub-folders of (_say_) `css` folder and arrange them relative to your root folder and they will no longer be the sub-folder of `css`. The output after globbing would look like
+В этом случае Gulp прочитает все подпапки папки (_скажет_) `css` и расположит их относительно вашей корневой папки, и они больше не будут подпапками `css`. Результат после подстановки будет выглядеть так:
 
 ![Zipped-Unzipped](https://cloud.githubusercontent.com/assets/2562992/3178614/27208c52-ec1c-11e3-852e-8bbb8e420c7f.png)
 
-If you want to maintain the structure, you need to pass `{base: '.'}` to `gulp.src()`. Like
+Если вы хотите сохранить структуру, вам нужно передать `{base: '.'}` в `gulp.src()`. Пример
 
 ```js
 gulp.task('task', function () {
@@ -38,6 +37,7 @@ gulp.task('task', function () {
        .pipe(operation2());
 });
 ```
-And the input to your `operation1()` will be a folder structure like
+
+И входом в вашу `operation1()` будет структура папок, например
 
 ![with-base](https://cloud.githubusercontent.com/assets/2562992/3178607/053d6722-ec1c-11e3-9ba8-7ce39e1a480e.png)

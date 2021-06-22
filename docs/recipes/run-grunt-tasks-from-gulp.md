@@ -1,10 +1,10 @@
-# Run Grunt Tasks from Gulp
+# Запуск задачи Grunt из Gulp
 
-It is possible to run Grunt tasks / Grunt plugins from within Gulp. This can be useful during a gradual migration from Grunt to Gulp or if there's a specific plugin that you need. With the described approach no Grunt CLI and no Gruntfile is required.
+Можно запускать задачи Grunt/плагины Grunt из Gulp. Это может быть полезно при постепенном переходе с Grunt на Gulp или при наличии определенного плагина, который вам нужен. При описанном подходе не требуется Grunt CLI и Gruntfile.
 
-**This approach requires Grunt >=1.0.0**
+**Для этого подхода требуется Grunt >=1.0.0**
 
-very simple example `gulpfile.js`:
+очень простой пример `gulpfile.js`:
 
 ```js
 // npm install gulp grunt grunt-contrib-copy --save-dev
@@ -24,25 +24,23 @@ grunt.loadNpmTasks('grunt-contrib-copy');
 
 gulp.task('copy', function (done) {
     grunt.tasks(
-        ['copy:main'],    //you can add more grunt tasks in this array
-        {gruntfile: false}, //don't look for a Gruntfile - there is none. :-)
+        ['copy:main'],    // вы можете добавить больше задач в этот массив
+        {gruntfile: false}, // не ищите Gruntfile - его нет. :-)
         function () {done();}
     );
 });
 
 ```
 
-Now start the task with:
-`gulp copy`
+Теперь запустите задачу с: `gulp copy`
 
-With the aforementioned approach the grunt tasks get registered within gulp's task system. **Keep in mind grunt tasks are usually blocking (unlike gulp), therefore no other task (not even a gulp task) can run until a grunt task is completed.**
+При вышеупомянутом подходе задачи grunt регистрируются в системе задач gulp. **Имейте в виду, что задачи grunt обычно блокируются (в отличие от gulp), поэтому никакая другая задача (даже задача gulp) не может выполняться, пока задача grunt не будет завершена.**
 
+## Несколько слов об альтернативах
 
-### A few words on alternatives
+Существует node модуль *gulpfriendly* `gulp-grunt` [available](https://www.npmjs.org/package/gulp-grunt), который использует другой подход. Он порождает дочерние процессы, и внутри них выполняются хрюкающие задачи. Однако способ его работы подразумевает некоторые ограничения:
 
-There's a *gulpfriendly* node module `gulp-grunt` [available](https://www.npmjs.org/package/gulp-grunt) which takes a different approach. It spawns child processes and within them the grunt tasks are executed. The way it works implies some limitations though:
-
-* It is at the moment not possible to pass options / cli args etc. to the grunt tasks via `gulp-grunt`
-* All grunt tasks have to be defined in a separate Gruntfile
-* You need to have the Grunt CLI installed
-* The output of some grunt tasks gets malformatted (.i.e. color coding).
+* В настоящее время невозможно передавать параметры/аргументы cli и т. д. в задачи grunt через `gulp-grunt`
+* Все задачи grunt должны быть определены в отдельном файле Gruntfile
+* У вас должен быть установлен Grunt CLI
+* Выходные данные некоторых хрюкающих задач искажаются (например, цветовое кодирование).

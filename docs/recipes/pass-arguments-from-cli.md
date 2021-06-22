@@ -1,4 +1,4 @@
-# Pass arguments from the command line
+# Передавать аргументы из командной строки
 
 ```js
 // npm install --save-dev gulp gulp-if gulp-uglify minimist
@@ -18,12 +18,12 @@ var options = minimist(process.argv.slice(2), knownOptions);
 
 gulp.task('scripts', function() {
   return gulp.src('**/*.js')
-    .pipe(gulpif(options.env === 'production', uglify())) // only minify in production
+    .pipe(gulpif(options.env === 'production', uglify())) // только минифицировать в продакшене
     .pipe(gulp.dest('dist'));
 });
 ```
 
-Then run gulp with:
+Затем запустите gulp с помощью:
 
 ```sh
 $ gulp scripts --env development

@@ -1,6 +1,6 @@
-# Mocha test-runner with gulp
+# Mocha test-runner с gulp
 
-### Passing shared module in all tests
+## Прохождение общего модуля во всех тестах
 
 ```js
 // npm install gulp gulp-mocha
@@ -19,7 +19,7 @@ gulp.task('default', function() {
 });
 ```
 
-### Running mocha tests when files change
+## Запуск тестов мокко при изменении файлов
 
 ```js
 // npm install gulp gulp-mocha gulplog

@@ -1,12 +1,11 @@
-# Browserify + Uglify2 with sourcemaps
+# Browserify + Uglify2 с исходными картами
 
-[Browserify](https://github.com/browserify/browserify) has become an important and indispensable
-tool but requires being wrapped before working well with gulp. Below is a simple recipe for using
-Browserify with full sourcemaps that resolve to the original individual files.
+[Browserify](https://github.com/browserify/browserify) стал важным и незаменимым инструментом, но для нормальной работы с gulp его необходимо обернуть.
+Ниже приведен простой рецепт использования Browserify с полными исходными картами, которые разрешаются в исходные отдельные файлы.
 
-See also: the [Combining Streams to Handle Errors](https://github.com/gulpjs/gulp/blob/master/docs/recipes/combining-streams-to-handle-errors.md) recipe for handling errors with browserify or uglify in your stream.
+Смотрите также: рецепт [Объединение потоков для обработки ошибок](https://github.com/gulpjs/gulp/blob/master/docs/recipes/combining-streams-to-handle-errors.md) для обработки ошибок с помощью browserify или убрать в свой поток.
 
-A simple `gulpfile.js` file for Browserify + Uglify2 with sourcemaps:
+Простой файл `gulpfile.js` для Browserify + Uglify2 с исходными картами:
 
 ``` javascript
 'use strict';
@@ -20,7 +19,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var log = require('gulplog');
 
 gulp.task('javascript', function () {
-  // set up the browserify instance on a task basis
+  // настроить экземпляр browserify на основе задачи
   var b = browserify({
     entries: './entry.js',
     debug: true
@@ -30,7 +29,7 @@ gulp.task('javascript', function () {
     .pipe(source('app.js'))
     .pipe(buffer())
     .pipe(sourcemaps.init({loadMaps: true}))
-        // Add transformation tasks to the pipeline here.
+        // Добавьте сюда задачи преобразования в конвейер.
         .pipe(uglify())
         .on('error', log.error)
     .pipe(sourcemaps.write('./'))

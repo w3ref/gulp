@@ -1,14 +1,14 @@
-# Server with live-reloading and CSS injection
+# Сервер с живой перезагрузкой и CSS-инъекцией
 
-With [BrowserSync](https://browsersync.io) and gulp, you can easily create a development server that is accessible to any device on the same WiFi network. BrowserSync also has live-reload built in, so there's nothing else to configure.
+С помощью [BrowserSync](https://browsersync.io) и gulp вы можете легко создать сервер разработки, доступный для любого устройства в той же сети Wi-Fi. BrowserSync также имеет встроенную перезагрузку в реальном времени, поэтому настраивать больше нечего.
 
-First install the modules:
+Сначала установите модули:
 
 ```sh
 $ npm install --save-dev gulp browser-sync
 ```
 
-Then, considering the following file structure...
+Затем, учитывая следующую файловую структуру...
 
 ```
 gulpfile.js
@@ -20,14 +20,14 @@ app/
   index.html
 ```
 
-... you can easily serve files from the `app` directory and have all browsers reload when any of them change with the following in `gulpfile.js`:
+...вы можете легко обслуживать файлы из каталога `app` и перезагружать все браузеры при изменении любого из них, используя следующую команду в `gulpfile.js`:
 
 ```js
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 
-// watch files for changes and reload
+// смотреть файлы на предмет изменений и перезагружать
 gulp.task('serve', function() {
   browserSync({
     server: {
@@ -40,7 +40,7 @@ gulp.task('serve', function() {
 
 ```
 
-and including the CSS in `index.html`:
+и включение CSS в `index.html`:
 
 ```html
 <html>
@@ -51,18 +51,17 @@ and including the CSS in `index.html`:
 
 ```
 
-to serve your files and launch a browser window pointing to the default URL (http://localhost:3000) run:
+для обслуживания ваших файлов и запуска окна браузера, указывающего на URL-адрес по умолчанию (http://localhost:3000), выполните:
 
 ```bash
 gulp serve
 ```
 
+## + Препроцессоры CSS
 
-## + CSS pre-processors
+Распространенный вариант использования - перезагрузка файлов CSS после их предварительной обработки. Используя Sass в качестве примера, вы можете указать браузерам перезагрузить CSS, не выполняя обновление всей страницы.
 
-A common use-case is to reload CSS files after they've been pre-processed. Using Sass as an example, this is how you can instruct browsers to reload the CSS without doing a full-page refresh.
-
-Considering this updated file structure...
+Учитывая эту обновленную файловую структуру...
 
 ```
 gulpfile.js
@@ -73,7 +72,8 @@ app/
     main.js
   index.html
 ```
-... you can easily watch Sass files from the `scss` directory and have all browsers reload when any of them change with the following in `gulpfile.js`:
+
+...вы можете легко просматривать файлы Sass из каталога `scss` и перезагружать все браузеры при изменении любого из них, используя следующую команду в `gulpfile.js`:
 
 ```js
 var gulp = require('gulp');
@@ -87,7 +87,7 @@ gulp.task('sass', function() {
     .pipe(reload({ stream:true }));
 });
 
-// watch Sass files for changes, run the Sass preprocessor with the 'sass' task and reload
+// наблюдать за файлами Sass на предмет изменений, запускать препроцессор Sass с задачей 'sass' и перезагружать
 gulp.task('serve', gulp.series('sass', function() {
   browserSync({
     server: {
@@ -99,7 +99,7 @@ gulp.task('serve', gulp.series('sass', function() {
 }));
 ```
 
-and including the pre-processed CSS in `index.html`:
+и включение предварительно обработанного CSS в `index.html`:
 
 ```html
 <html>
@@ -110,13 +110,13 @@ and including the pre-processed CSS in `index.html`:
 
 ```
 
-to serve your files and launch a browser window pointing to the default URL (http://localhost:3000) run:
+для обслуживания ваших файлов и запуска окна браузера, указывающего на URL-адрес по умолчанию (http://localhost:3000), выполните:
 
 ```bash
 gulp serve
 ```
 
-## Extras
+## Дополнительно
 
-- Live reload, CSS injection and scroll/form syncing works seamlessly inside of [BrowserStack](https://www.browserstack.com/) virtual machines.
-- Set `tunnel: true` to view your local site at a public URL (complete with all BrowserSync features).
+- Живая перезагрузка, внедрение CSS и синхронизация прокрутки/формы без проблем работают внутри виртуальных машин [BrowserStack](https://www.browserstack.com/).
+- Установите `tunnel: true` для просмотра вашего локального сайта по общедоступному URL-адресу (со всеми функциями BrowserSync).

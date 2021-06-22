@@ -1,7 +1,8 @@
-# Templating with Swig and YAML front-matter
-Templating can be setup using `gulp-swig` and `gulp-front-matter`:
+# Создание шаблонов с помощью Swig и YAML
 
-##### `page.html`
+Шаблон можно настроить с помощью `gulp-swig` и `gulp-front-matter`:
+
+## `page.html`
 
 ```html
 ---
@@ -24,7 +25,7 @@ todos:
 </html>
 ```
 
-##### `gulpfile.js`
+## `gulpfile.js`
 
 ```js
 var gulp = require('gulp');

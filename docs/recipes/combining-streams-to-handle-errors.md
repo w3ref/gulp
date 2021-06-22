@@ -1,10 +1,10 @@
-# Combining streams to handle errors
+# Объединение потоков для обработки ошибок
 
-By default, emitting an error on a stream will cause it to be thrown unless it already has a listener attached to the `error` event. This gets a bit tricky when you're working with longer pipelines of streams.
+По умолчанию, выдача ошибки в потоке будет вызывать его, если у него еще нет слушателя, прикрепленного к событию `error`. Это становится немного сложнее, когда вы работаете с более длинными конвейерами потоков.
 
-By using [stream-combiner2](https://github.com/substack/stream-combiner2) you can turn a series of streams into a single stream, meaning you only need to listen to the `error` event in one place in your code.
+Используя [stream-combiner2](https://github.com/substack/stream-combiner2), вы можете превратить серию потоков в один поток, то есть вам нужно только прослушивать событие `error` в одном месте в ваш код.
 
-Here's an example of using it in a gulpfile:
+Вот пример использования его в gulpfile:
 
 ```js
 var combiner = require('stream-combiner2');
@@ -17,8 +17,8 @@ gulp.task('test', function() {
       uglify(),
       gulp.dest('public/bootstrap')
     ])
-    // any errors in the above streams will get caught
-    // by this listener, instead of being thrown:
+    // любые ошибки в вышеуказанных потоках будут
+    // перехвачены этим слушателем, а не выданы:
     .on('error', console.error.bind(console));
 });
 ```

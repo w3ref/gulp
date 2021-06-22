@@ -1,6 +1,6 @@
-# Generating a file per folder
+# Создание файла для каждой папки
 
-If you have a set of folders, and wish to perform a set of tasks on each, for instance...
+Если у вас есть набор папок, и вы хотите выполнить набор задач для каждой, например...
 
 ```
 /scripts
@@ -8,7 +8,7 @@ If you have a set of folders, and wish to perform a set of tasks on each, for in
 /scripts/angularjs/*.js
 ```
 
-...and want to end up with...
+...и хотите получить...
 
 ```
 /scripts
@@ -16,7 +16,7 @@ If you have a set of folders, and wish to perform a set of tasks on each, for in
 /scripts/angularjs.min.js
 ```
 
-...you'll need to do something like the following...
+...вам нужно сделать что-то вроде следующего...
 
 ``` javascript
 var fs = require('fs');
@@ -38,22 +38,22 @@ function getFolders(dir) {
 
 gulp.task('scripts', function(done) {
    var folders = getFolders(scriptsPath);
-   if (folders.length === 0) return done(); // nothing to do!
+   if (folders.length === 0) return done(); // нечего делать!
    var tasks = folders.map(function(folder) {
       return gulp.src(path.join(scriptsPath, folder, '/**/*.js'))
-        // concat into foldername.js
+        // объединить в foldername.js
         .pipe(concat(folder + '.js'))
-        // write to output
+        // записать в вывод
         .pipe(gulp.dest(scriptsPath))
-        // minify
+        // минификация
         .pipe(uglify())
-        // rename to folder.min.js
+        // переименовать в folder.min.js
         .pipe(rename(folder + '.min.js'))
-        // write to output again
+        // записать в вывод again
         .pipe(gulp.dest(scriptsPath));
    });
 
-   // process all remaining files in scriptsPath root into main.js and main.min.js files
+   // обработать все оставшиеся файлы в scriptsPath root в файлы main.js и main.min.js
    var root = gulp.src(path.join(scriptsPath, '/*.js'))
         .pipe(concat('main.js'))
         .pipe(gulp.dest(scriptsPath))
@@ -65,7 +65,7 @@ gulp.task('scripts', function(done) {
 });
 ```
 
-A few notes:
+Несколько примечаний:
 
-- `folders.map` - executes the function once per folder, and returns the async stream
-- `merge` - combines the streams and ends only when all streams emitted end
+- `folders.map` - выполняет функцию один раз для каждой папки и возвращает асинхронный поток
+- `merge` - объединяет потоки и завершается только тогда, когда все потоки исходят, заканчиваются
